@@ -656,30 +656,34 @@ async function sha256(msg){
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-const HASH_OWNER=(async()=>await sha256('ademcanadmin6060'))();
-const HASH_PARTNER=(async()=>await sha256('logarymjademadmin'))();
+const PW_OWNER='ademcanadmin6060';
+const PW_PARTNER='logarymjademadmin';
 
 function isLoggedIn(){return sessionStorage.getItem('logary_auth')==='1';}
 function isOwner(){return sessionStorage.getItem('logary_owner')==='1';}
 
 async function doLogin(){
-  const pw=document.getElementById('pwInput').value;
+  const pw=document.getElementById('pwInput').value.trim();
   const inp=document.getElementById('pwInput');
   const err=document.getElementById('loginErr');
   if(!pw){inp.classList.add('err');setTimeout(()=>inp.classList.remove('err'),400);return;}
-  const hash=await sha256(pw);
-  const ho=await HASH_OWNER;
-  const hp=await HASH_PARTNER;
-  if(hash===ho||hash===hp){
+
+  const [hashInput, hashOwner, hashPartner] = await Promise.all([
+    sha256(pw),
+    sha256(PW_OWNER),
+    sha256(PW_PARTNER)
+  ]);
+
+  if(hashInput===hashOwner||hashInput===hashPartner){
     sessionStorage.setItem('logary_auth','1');
-    if(hash===ho) sessionStorage.setItem('logary_owner','1');
+    if(hashInput===hashOwner) sessionStorage.setItem('logary_owner','1');
     else sessionStorage.removeItem('logary_owner');
     const ls=document.getElementById('loginScreen');
     ls.style.opacity='0';ls.style.transition='opacity .4s';
     setTimeout(()=>{ls.style.display='none';},400);
     err.classList.remove('show');
     initApp();
-    if(hash===ho) setTimeout(openLog,600);
+    if(hashInput===hashOwner) setTimeout(openLog,600);
   } else {
     inp.classList.add('err');err.classList.add('show');inp.value='';
     setTimeout(()=>inp.classList.remove('err'),400);
