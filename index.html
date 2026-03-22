@@ -620,21 +620,23 @@ async function sendDiscord(type, nodeType, title, desc='', progress=null, extra=
       conn:'🔗 Bağlantı Eklendi',
     };
 
-    await fetch(DISCORD_WEBHOOK,{
+    const payload={
+      username:'Logary Roadmap',
+      embeds:[{
+        title:`${actionLabels[type]||type}`,
+        description:`**${title||'(başlıksız)'}**`,
+        color,
+        fields,
+        footer:{text:'Logary Roadmap • logaryapp.github.io'},
+        timestamp:now.toISOString(),
+      }]
+    };
+
+    await fetch(DISCORD_WEBHOOK+'?wait=true',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        username:'Logary Roadmap',
-        avatar_url:'https://cdn.discordapp.com/embed/avatars/0.png',
-        embeds:[{
-          title:`${actionLabels[type]||type}`,
-          description:`**${title||'(başlıksız)'}**`,
-          color,
-          fields,
-          footer:{text:'Logary Roadmap • logaryapp.github.io'},
-          timestamp:now.toISOString(),
-        }]
-      })
+      body:JSON.stringify(payload),
+      mode:'cors',
     });
   }catch(e){
     console.warn('Discord webhook hatası:',e);
