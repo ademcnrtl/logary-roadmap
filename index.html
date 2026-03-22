@@ -573,6 +573,74 @@ const LOG_KEY='logary_activity_v1';
 let logFilter='all';
 let logClickCount=0, logClickTimer=null;
 
+const DISCORD_WEBHOOK='https://discord.com/api/webhooks/1485407990080082115/C-I_U4t3VdyLc2p_j6UN6G178kKwVjuUXZJeJgS_VxFBATdRZWQvwdO_MuhiKdnJqess';
+
+const DC_COLORS={
+  node:0x7c6aff,
+  start:0x6affcc,
+  milestone:0xffb86a,
+  end:0xff6a8a,
+  delete:0xff4444,
+  edit:0x5b8cff,
+  progress:0xffb86a,
+  conn:0x7ab4e8,
+};
+const DC_ICONS={
+  task:'📋',start:'🚀',milestone:'🏁',end:'🎯',
+  delete:'🗑️',edit:'✏️',progress:'📊',conn:'🔗',
+};
+
+function progressBar(pct){
+  const filled=Math.round(pct/10);
+  const empty=10-filled;
+  return '█'.repeat(filled)+'░'.repeat(empty)+` ${pct}%`;
+}
+
+async function sendDiscord(type, nodeType, title, desc='', progress=null, extra=null){
+  try{
+    const icon=DC_ICONS[nodeType]||DC_ICONS[type]||'📌';
+    const color=DC_COLORS[nodeType]||DC_COLORS[type]||0x7c6aff;
+    const now=new Date();
+    const timeStr=now.toLocaleString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+    const fields=[];
+    if(desc) fields.push({name:'Açıklama',value:desc.slice(0,200)+(desc.length>200?'…':''),inline:false});
+    if(progress!==null) fields.push({name:'İlerleme',value:progressBar(progress),inline:false});
+    if(extra) fields.push({name:'Detay',value:extra,inline:false});
+    fields.push({name:'Zaman',value:timeStr,inline:true});
+
+    const typeLabels={task:'Görev',start:'Başlangıç',milestone:'Kilometre Taşı',end:'Hedef'};
+    if(nodeType&&typeLabels[nodeType]) fields.push({name:'Tip',value:`${icon} ${typeLabels[nodeType]}`,inline:true});
+
+    const actionLabels={
+      node:'➕ Yeni Node Eklendi',
+      delete:'🗑️ Node Silindi',
+      edit:'✏️ Node Güncellendi',
+      progress:'📊 İlerleme Güncellendi',
+      conn:'🔗 Bağlantı Eklendi',
+    };
+
+    await fetch(DISCORD_WEBHOOK,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        username:'Logary Roadmap',
+        avatar_url:'https://cdn.discordapp.com/embed/avatars/0.png',
+        embeds:[{
+          title:`${actionLabels[type]||type}`,
+          description:`**${title||'(başlıksız)'}**`,
+          color,
+          fields,
+          footer:{text:'Logary Roadmap • logaryapp.github.io'},
+          timestamp:now.toISOString(),
+        }]
+      })
+    });
+  }catch(e){
+    console.warn('Discord webhook hatası:',e);
+  }
+}
+
 function logAdd(type, action, detail=''){
   const logs=JSON.parse(localStorage.getItem(LOG_KEY)||'[]');
   logs.unshift({type, action, detail, ts: Date.now()});
@@ -1046,6 +1114,7 @@ function addNode(type,x,y){
   const node={id,type,x:x??(-panX/scale+50+Math.random()*(r.width/scale-300)),y:y??(-panY/scale+50+Math.random()*(r.height/scale-220)),title:'',desc:'',progress:type==='start'?100:type==='end'?0:35};
   nodes.push(node);buildNode(node);scheduleSave();
   logAdd('node',`Node eklendi: ${TLABEL[type]||type}`,`Pozisyon: ${Math.round(node.x)}, ${Math.round(node.y)}`);
+  sendDiscord('node', type, TLABEL[type]||type, '', node.progress);
   return node;
 }
 function buildNode(node){
@@ -1075,7 +1144,11 @@ function buildNode(node){
       editTimer=setTimeout(()=>{
         const field=ta.classList.contains('ntitle')?'Başlık':'Açıklama';
         logAdd('edit',`${field} düzenlendi`,ta.value.slice(0,60)+(ta.value.length>60?'…':''));
-      },1500);
+        const el2=document.getElementById('n'+node.id);
+        const t=el2?.querySelector('.ntitle')?.value||'';
+        const d=el2?.querySelector('.ndesc')?.value||'';
+        sendDiscord('edit', node.type, t||'(başlıksız)', d, node.progress);
+      },2000);
     });
     setTimeout(grow,0);
   });
@@ -1102,11 +1175,13 @@ function setProgress(id,v){
   const old=n.progress; n.progress=v;
   document.getElementById('pf'+id).style.width=v+'%';document.getElementById('pp'+id).textContent=v+'%';
   logAdd('progress',`İlerleme güncellendi: ${n.title||'(başlıksız)'}`,`%${old} → %${v}`);
+  sendDiscord('progress', n.type, n.title||'(başlıksız)', '', v, `%${old} → %${v}`);
   scheduleSave();
 }
 function delNode(id){
   const n=nodes.find(x=>x.id===id);
   logAdd('delete',`Node silindi: ${n?.title||'(başlıksız)'}`,TLABEL[n?.type]||'');
+  sendDiscord('delete', n?.type, n?.title||'(başlıksız)', n?.desc||'');
   nodes=nodes.filter(n=>n.id!==id);conns=conns.filter(c=>c.a!==id&&c.b!==id);
   document.getElementById('n'+id)?.remove();redrawConns();scheduleSave();
 }
@@ -1118,6 +1193,7 @@ function handleConn(id,el){
       conns.push({a:connFrom,b:id});
       const a=nodes.find(x=>x.id===connFrom), b=nodes.find(x=>x.id===id);
       logAdd('conn','Bağlantı eklendi',`${a?.title||'Node'} → ${b?.title||'Node'}`);
+      sendDiscord('conn','conn',`${a?.title||'Node'} → ${b?.title||'Node'}`,'');
     }
     clearHL();connFrom=null;redrawConns();scheduleSave();
   }
