@@ -636,21 +636,24 @@ async function sendDiscord(type, nodeType, title, desc='', progress=null, extra=
     const payload={
       username:'Logary Roadmap',
       embeds:[{
-        title:`${actionLabels[type]||type}`,
+        title:actionLabels[type]||type,
         description:`**${title||'(başlıksız)'}**`,
-        color,
-        fields,
+        color,fields,
         footer:{text:'Logary Roadmap • logaryapp.github.io'},
         timestamp:now.toISOString(),
       }]
     };
 
-    await fetch(DISCORD_WEBHOOK+'?wait=true',{
+    const res=await fetch(DISCORD_WEBHOOK+'?wait=true',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
-      mode:'cors',
+      body:JSON.stringify(payload)
     });
+
+    if(!res.ok){
+      const err=await res.text();
+      console.warn('Discord hata:',res.status,err);
+    }
   }catch(e){
     console.warn('Discord webhook hatası:',e);
   }
@@ -667,20 +670,11 @@ function logAdd(type, action, detail=''){
 
 async function syncLogToSupabase(logs){
   try{
-    const res=await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.2&select=id`,{headers:SUPA_HEADERS});
-    const rows=await res.json();
-    const payload=JSON.stringify(logs);
-    if(rows&&rows.length>0){
-      await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.2`,{
-        method:'PATCH',headers:SUPA_HEADERS,
-        body:JSON.stringify({data:payload,updated_at:new Date().toISOString()})
-      });
-    } else {
-      await fetch(`${SUPA_URL}/rest/v1/roadmap`,{
-        method:'POST',headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
-        body:JSON.stringify({id:2,data:payload,updated_at:new Date().toISOString()})
-      });
-    }
+    await fetch(`${SUPA_URL}/rest/v1/roadmap`,{
+      method:'POST',
+      headers:{...SUPA_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify({id:2,data:JSON.stringify(logs),updated_at:new Date().toISOString()})
+    });
   }catch(e){}
 }
 
@@ -1082,22 +1076,16 @@ async function doSave(){
     });
 
     const payload={nodes,conns,nid,labels,lid};
-
-    const res=await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.${ROW_ID}`,{
-      method:'PATCH',
-      headers:SUPA_HEADERS,
-      body:JSON.stringify({data:JSON.stringify(payload),updated_at:new Date().toISOString()})
-    });
-
-    if(res.status===404||res.status===406){
-      await fetch(`${SUPA_URL}/rest/v1/roadmap`,{
-        method:'POST',
-        headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
-        body:JSON.stringify({id:ROW_ID,data:JSON.stringify(payload),updated_at:new Date().toISOString()})
-      });
-    }
-
     localStorage.setItem(SKEY,JSON.stringify(payload));
+
+    const saveRes=await fetch(`${SUPA_URL}/rest/v1/roadmap`,{
+      method:'POST',
+      headers:{...SUPA_HEADERS,'Prefer':'resolution=merge-duplicates,return=representation'},
+      body:JSON.stringify({id:ROW_ID,data:JSON.stringify(payload),updated_at:new Date().toISOString()})
+    });
+    const saved=await saveRes.json();
+    if(saved&&saved[0]&&saved[0].updated_at) window._lastUpdated=saved[0].updated_at;
+
     setSB('saved','Kaydedildi ✓');setTimeout(()=>setSB('','Kaydedildi'),2000);
   }catch(e){
     setSB('','⚠ Hata');
@@ -1108,7 +1096,7 @@ async function doSave(){
 async function doLoad(){
   if(FORCE_PRESET)return false;
   try{
-    const res=await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.${ROW_ID}&select=data`,{
+    const res=await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.${ROW_ID}&select=data,updated_at`,{
       headers:SUPA_HEADERS
     });
     const rows=await res.json();
@@ -1117,6 +1105,7 @@ async function doLoad(){
       if(local) return loadFromJSON(JSON.parse(local));
       return false;
     }
+    window._lastUpdated=rows[0].updated_at;
     const d=JSON.parse(rows[0].data);
     return loadFromJSON(d);
   }catch(e){
@@ -1147,24 +1136,23 @@ function startRealtimeSync(){
       });
       const rows=await res.json();
       if(!rows||rows.length===0)return;
+      const remoteTs=rows[0].updated_at;
+      if(remoteTs===window._lastUpdated)return;
+      window._lastUpdated=remoteTs;
       const remote=JSON.parse(rows[0].data);
-      const local=JSON.stringify({nodes,conns,nid,labels,lid});
-      const remoteStr=JSON.stringify({nodes:remote.nodes,conns:remote.conns,nid:remote.nid,labels:remote.labels,lid:remote.lid});
-      if(local!==remoteStr){
-        nodes=remote.nodes||[];conns=remote.conns||[];nid=remote.nid||0;
-        labels=remote.labels||[];lid=remote.lid||0;
-        NL.innerHTML='';SVG.innerHTML='';
-        nodes.forEach(n=>buildNode(n));
-        labels.forEach(l=>buildLabel(l));
-        setTimeout(redrawConns,80);
-      }
+      nodes=remote.nodes||[];conns=remote.conns||[];nid=remote.nid||0;
+      labels=remote.labels||[];lid=remote.lid||0;
+      NL.innerHTML='';SVG.innerHTML='';
+      nodes.forEach(n=>buildNode(n));
+      labels.forEach(l=>buildLabel(l));
+      setTimeout(redrawConns,80);
     }catch(e){}
 
     if(document.getElementById('logPanel').classList.contains('open')){
       await loadLogsFromSupabase();
       renderLog();
     }
-  },5000);
+  },3000);
 }
 
 function setTool(t){
