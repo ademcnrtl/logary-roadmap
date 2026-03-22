@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Logary Roadmap</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,8 +12,20 @@
   --accent:#7c6aff; --accent2:#ff6a8a; --accent3:#6affcc;
   --text:#e8e8f0; --muted:#7a7a96; --node-bg:#1e1e2a;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{
+  font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);
+  height:100%;width:100%;
+  overflow:hidden;
+  overscroll-behavior:none;
+  touch-action:none;
+  -webkit-overflow-scrolling:none;
+  position:fixed;
+}
+body{display:flex;flex-direction:column;}
+
+::-webkit-scrollbar{display:none;}
+*{scrollbar-width:none;-ms-overflow-style:none;}
 
 /* ── LOGIN SCREEN ── */
 #loginScreen{
@@ -87,8 +99,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .cdot{width:17px;height:17px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;flex-shrink:0;}
 .cdot:hover{transform:scale(1.25);}
 .cdot.on{border-color:#fff;transform:scale(1.25);}
-.bslider{-webkit-appearance:none;width:72px;height:3px;border-radius:2px;background:var(--border);outline:none;cursor:pointer;}
-.bslider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;}
+.bslider{-webkit-appearance:none;appearance:none;width:72px;height:3px;border-radius:2px;background:var(--border);outline:none;cursor:pointer;}
+.bslider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;}
 .spacer{flex:1;}
 .sbadge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);font-size:11px;color:var(--muted);transition:all .3s;white-space:nowrap;}
 .sbadge.saving{color:#ffb86a;border-color:rgba(255,184,106,.35);background:rgba(255,184,106,.07);}
@@ -165,93 +177,131 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .mob-bar{
   display:none;
   position:fixed;bottom:0;left:0;right:0;z-index:300;
-  background:var(--surface);border-top:1px solid var(--border);
-  padding:8px 12px 12px;
-  flex-direction:column;gap:8px;
+  background:var(--ink, #13131a);
+  border-top:1px solid var(--border);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  flex-direction:column;gap:10px;
+  box-shadow:0 -8px 32px rgba(0,0,0,.4);
 }
-.mob-tools{display:flex;gap:6px;justify-content:center;}
+
+.mob-tools{
+  display:flex;
+  gap:4px;
+  background:var(--surface2);
+  border-radius:14px;
+  padding:4px;
+}
 .mob-btn{
-  flex:1;max-width:64px;
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  padding:8px 4px;border-radius:10px;border:1px solid transparent;
+  flex:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:7px 4px;border-radius:10px;border:none;
   background:transparent;color:var(--muted);
-  font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;transition:all .15s;
+  font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:500;
+  cursor:pointer;transition:all .18s;
+  min-height:48px;
 }
-.mob-btn svg{width:20px;height:20px;}
-.mob-btn.active{background:var(--accent);color:#fff;border-color:transparent;}
-.mob-btn:hover{background:var(--surface2);color:var(--text);}
-.mob-colors{display:flex;gap:8px;justify-content:center;align-items:center;padding:2px 0;}
-.mob-actions{display:flex;gap:6px;}
-.mob-actions .abtn{flex:1;text-align:center;font-size:12px;padding:7px 4px;}
+.mob-btn svg{width:18px;height:18px;stroke-width:2;}
+.mob-btn.active{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 2px 10px rgba(124,106,255,.4);
+}
+
+.mob-row2{
+  display:flex;align-items:center;gap:8px;
+}
+.mob-colors-wrap{
+  display:flex;align-items:center;gap:7px;
+  background:var(--surface2);
+  border-radius:10px;
+  padding:7px 10px;
+  flex:1;
+}
+.mob-bslider{
+  -webkit-appearance:none;appearance:none;
+  flex:1;height:3px;border-radius:2px;
+  background:var(--border);outline:none;cursor:pointer;
+}
+.mob-bslider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--accent);cursor:pointer;
+  box-shadow:0 0 6px rgba(124,106,255,.5);
+}
+.mob-icon-btn{
+  width:44px;height:44px;border-radius:11px;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.mob-icon-btn:active{transform:scale(.93);}
+.mob-icon-btn.danger{border-color:rgba(255,106,138,.3);color:var(--accent2);}
+.mob-icon-btn.add-btn{
+  background:var(--accent);border-color:var(--accent);color:#fff;
+  box-shadow:0 4px 14px rgba(124,106,255,.4);
+}
 
 /* ── MOBILE SIDE PANEL → BOTTOM SHEET ── */
 .mob-node-sheet{
   display:none;
   position:fixed;bottom:0;left:0;right:0;z-index:400;
-  background:var(--surface);border-top:1px solid var(--border);
-  border-radius:20px 20px 0 0;
-  padding:16px;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-radius:22px 22px 0 0;
+  padding:14px 16px calc(16px + env(safe-area-inset-bottom));
   transform:translateY(100%);
-  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -16px 48px rgba(0,0,0,.5);
 }
 .mob-node-sheet.open{transform:translateY(0);}
-.mob-sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 14px;}
+.mob-sheet-handle{width:40px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 16px;}
+.mob-sheet-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;text-align:center;margin-bottom:14px;}
 .mob-sheet-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .mob-sheet-btn{
-  display:flex;align-items:center;gap:8px;
-  padding:10px 12px;border:1px solid var(--border);border-radius:10px;
-  background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;
-  font-size:13px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border:1px solid var(--border);border-radius:12px;
+  background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;
 }
-.mob-sheet-btn:hover{background:var(--surface2);border-color:var(--accent);}
+.mob-sheet-btn:active{transform:scale(.96);border-color:var(--accent);}
+.mob-sheet-btn span{font-size:20px;}
 .mob-sheet-close{
-  width:100%;margin-top:10px;padding:10px;border-radius:10px;
-  border:1px solid var(--border);background:var(--surface2);
+  width:100%;margin-top:10px;padding:12px;border-radius:12px;
+  border:1px solid var(--border);background:transparent;
   color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+  transition:all .15s;
 }
+.mob-sheet-close:active{background:var(--surface2);}
 .mob-overlay{
   display:none;position:fixed;inset:0;z-index:390;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.6);backdrop-filter:blur(2px);
 }
 .mob-overlay.show{display:block;}
 
 /* ── RESPONSIVE BREAKPOINTS ── */
 @media(max-width:768px){
-  /* Login box */
   .login-box{width:calc(100vw - 32px);padding:28px 24px;}
 
-  /* Hide desktop topbar tools, show mobile bar */
   .topbar .sep,
   .topbar .tbtn,
   .topbar .cdot,
   .topbar .bslider,
   .topbar .sbadge,
-  .topbar .abtn:not(.logout-top){display:none!important;}
-  .topbar{padding:8px 14px;justify-content:space-between;}
-  .logo{margin-right:0;}
+  .topbar .abtn{display:none!important;}
+  .topbar{padding:10px 16px;}
+  .logo{font-size:19px;}
 
-  /* Show mobile bar */
   .mob-bar{display:flex;}
   .mob-node-sheet{display:block;}
-
-  /* Canvas hint hidden on mobile */
   .hint{display:none;}
-
-  /* Side panel hidden on mobile (replaced by sheet) */
   .side-panel{display:none;}
-
-  /* Zoom controls repositioned above mob bar */
-  .zoom-controls{bottom:160px;right:10px;}
-
-  /* Nodes slightly narrower */
+  .zoom-controls{bottom:calc(140px + env(safe-area-inset-bottom));right:12px;}
   .rnode{width:200px;}
-
-  /* Wrap needs bottom padding for mob bar */
-  .wrap{padding-bottom:130px;}
+  .wrap{overflow:hidden;}
 }
 @media(max-width:400px){
   .login-box{padding:24px 18px;}
-  .mob-btn{font-size:9px;padding:6px 2px;}
+  .mob-btn{font-size:9px;}
 }
 </style>
 </head>
@@ -358,122 +408,104 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 
 <!-- ── MOBILE BOTTOM BAR ── -->
 <div class="mob-bar" id="mobBar">
+
   <div class="mob-tools">
     <button class="mob-btn active" id="mtSel" onclick="setTool('select')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-7 1-4 7z"/></svg>Seç
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M5 3l14 9-7 1-4 7z"/></svg>Seç
     </button>
     <button class="mob-btn" id="mtDraw" onclick="setTool('draw')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Kalem
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Kalem
     </button>
     <button class="mob-btn" id="mtErase" onclick="setTool('erase')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 20H7L3 16l11-11 6 6z"/><path d="M6 17l-3-3"/></svg>Silgi
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M20 20H7L3 16l11-11 6 6z"/><path d="M6 17l-3-3"/></svg>Silgi
     </button>
     <button class="mob-btn" id="mtConn" onclick="setTool('connect')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h6l-3 12"/></svg>Bağla
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h6l-3 12"/></svg>Bağla
     </button>
     <button class="mob-btn" id="mtText" onclick="setTool('text')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Metin
-    </button>
-    <button class="mob-btn" onclick="toggleNodeSheet()">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>Ekle
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Metin
     </button>
   </div>
-  <div class="mob-colors">
-    <div class="cdot on" style="background:#7c6aff" data-c="#7c6aff" onclick="pickC(this)"></div>
-    <div class="cdot" style="background:#ff6a8a" data-c="#ff6a8a" onclick="pickC(this)"></div>
-    <div class="cdot" style="background:#6affcc" data-c="#6affcc" onclick="pickC(this)"></div>
-    <div class="cdot" style="background:#ffb86a" data-c="#ffb86a" onclick="pickC(this)"></div>
-    <div class="cdot" style="background:#e8e8f0" data-c="#e8e8f0" onclick="pickC(this)"></div>
-    <input class="bslider" style="width:80px;margin-left:6px;" id="bszMob" type="range" min="1" max="20" value="3">
+
+  <div class="mob-row2">
+    <div class="mob-colors-wrap">
+      <div class="cdot on" style="background:#7c6aff" data-c="#7c6aff" onclick="pickC(this)"></div>
+      <div class="cdot" style="background:#ff6a8a" data-c="#ff6a8a" onclick="pickC(this)"></div>
+      <div class="cdot" style="background:#6affcc" data-c="#6affcc" onclick="pickC(this)"></div>
+      <div class="cdot" style="background:#ffb86a" data-c="#ffb86a" onclick="pickC(this)"></div>
+      <div class="cdot" style="background:#e8e8f0" data-c="#e8e8f0" onclick="pickC(this)"></div>
+      <input class="mob-bslider" id="bszMob" type="range" min="1" max="20" value="3">
+    </div>
+    <button class="mob-icon-btn" onclick="exportPNG()" title="PNG İndir">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    </button>
+    <button class="mob-icon-btn danger" onclick="doLogout()" title="Çıkış">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+    </button>
+    <button class="mob-icon-btn add-btn" onclick="toggleNodeSheet()" title="Node Ekle">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
   </div>
-  <div class="mob-actions">
-    <button class="abtn" style="flex:1;text-align:center;" onclick="clearDraw()">Çizimi Temizle</button>
-    <button class="abtn pri" style="flex:1;text-align:center;" onclick="exportPNG()">PNG</button>
-    <button class="abtn logout" style="flex:1;text-align:center;" onclick="doLogout()">Çıkış</button>
-  </div>
+
 </div>
 
 <!-- ── MOBILE NODE SHEET ── -->
 <div class="mob-overlay" id="mobOverlay" onclick="closeNodeSheet()"></div>
 <div class="mob-node-sheet" id="mobSheet">
   <div class="mob-sheet-handle"></div>
+  <div class="mob-sheet-title">Node Ekle</div>
   <div class="mob-sheet-grid">
     <button class="mob-sheet-btn" onclick="addNode('task');closeNodeSheet()">
-      <span style="font-size:18px;">📋</span>
-      <div><div style="font-weight:600;">Görev</div><div style="font-size:11px;color:var(--muted)">Yapılacak adım</div></div>
+      <span>📋</span><div><div style="font-weight:600;">Görev</div><div style="font-size:11px;color:var(--muted)">Yapılacak adım</div></div>
     </button>
     <button class="mob-sheet-btn" onclick="addNode('start');closeNodeSheet()">
-      <span style="font-size:18px;">🚀</span>
-      <div><div style="font-weight:600;">Başlangıç</div><div style="font-size:11px;color:var(--muted)">Yolculuğun başı</div></div>
+      <span>🚀</span><div><div style="font-weight:600;">Başlangıç</div><div style="font-size:11px;color:var(--muted)">Yolculuğun başı</div></div>
     </button>
     <button class="mob-sheet-btn" onclick="addNode('milestone');closeNodeSheet()">
-      <span style="font-size:18px;">🏁</span>
-      <div><div style="font-weight:600;">Kilometre Taşı</div><div style="font-size:11px;color:var(--muted)">Önemli dönüm</div></div>
+      <span>🏁</span><div><div style="font-weight:600;">Kilometre Taşı</div><div style="font-size:11px;color:var(--muted)">Önemli dönüm</div></div>
     </button>
     <button class="mob-sheet-btn" onclick="addNode('end');closeNodeSheet()">
-      <span style="font-size:18px;">🎯</span>
-      <div><div style="font-weight:600;">Hedef</div><div style="font-size:11px;color:var(--muted)">Bitiş noktası</div></div>
+      <span>🎯</span><div><div style="font-weight:600;">Hedef</div><div style="font-size:11px;color:var(--muted)">Bitiş noktası</div></div>
     </button>
   </div>
   <button class="mob-sheet-close" onclick="closeNodeSheet()">Kapat</button>
 </div>
 
 <script>
-// ═══════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════
-// Şifre hash'i (SHA-256) — düz metin kod içinde değil
-const PASS_HASH = '7e6a09e60dc5e1e0f44b4b72aa7f0a237f4e4b1b2e3c4d5e6f7a8b9c0d1e2f3';
-
-// Basit ama etkili hash fonksiyonu
 async function sha256(msg){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// Gerçek hash — doğru şifrenin SHA-256'sı
-// "logarymjademadmin" → hesaplanmış hash
-const CORRECT_HASH = (async()=>{
-  return await sha256('logarymjademadmin');
-})();
+const CORRECT_HASH=(async()=>await sha256('logarymjademadmin'))();
 
-function isLoggedIn(){
-  return sessionStorage.getItem('logary_auth')==='1';
-}
+function isLoggedIn(){return sessionStorage.getItem('logary_auth')==='1';}
 
 async function doLogin(){
-  const pw = document.getElementById('pwInput').value;
-  const inp = document.getElementById('pwInput');
-  const err = document.getElementById('loginErr');
+  const pw=document.getElementById('pwInput').value;
+  const inp=document.getElementById('pwInput');
+  const err=document.getElementById('loginErr');
   if(!pw){inp.classList.add('err');setTimeout(()=>inp.classList.remove('err'),400);return;}
-  const hash = await sha256(pw);
-  const correct = await CORRECT_HASH;
-  if(hash === correct){
+  const hash=await sha256(pw);
+  const correct=await CORRECT_HASH;
+  if(hash===correct){
     sessionStorage.setItem('logary_auth','1');
-    const ls = document.getElementById('loginScreen');
+    const ls=document.getElementById('loginScreen');
     ls.style.opacity='0';ls.style.transition='opacity .4s';
     setTimeout(()=>{ls.style.display='none';},400);
     err.classList.remove('show');
     initApp();
   } else {
-    inp.classList.add('err');
-    err.classList.add('show');
-    inp.value='';
+    inp.classList.add('err');err.classList.add('show');inp.value='';
     setTimeout(()=>inp.classList.remove('err'),400);
   }
 }
 
-function doLogout(){
-  sessionStorage.removeItem('logary_auth');
-  location.reload();
-}
+function doLogout(){sessionStorage.removeItem('logary_auth');location.reload();}
 
-// ═══════════════════════════════════════
-// PRESET DATA
-// ═══════════════════════════════════════
-const FORCE_PRESET = false;
+const FORCE_PRESET=false;
 
-const PRESET_NODES = [
+const PRESET_NODES=[
   {id:1,type:'start',x:80,y:200,title:'Logary v1.0 Canlıya Çıkış',desc:'29 Mart lansmanı. Uygulamanın marketlerde yayınlanması ve 12 kişilik Beta Tester\'in içeri alınması',progress:38},
   {id:2,type:'task',x:420,y:50,title:'Teknik İzleme ve Hata Avı',desc:'React Native kaynaklı olası UI kaymalarını, cihaza özgü hataları ve çökme raporlarını takip etme. Acil hotfix (hızlı yama) hazırlıkları.',progress:48},
   {id:3,type:'task',x:420,y:310,title:'Topluluk Lansmanı',desc:'Discord üzerinden ilk duyuruları yapma, hoş geldin mesajları ve kullanıcılardan ilk anlık geri bildirimleri toplama.',progress:48},
@@ -494,9 +526,6 @@ const PRESET_LABELS=[
   {id:3,x:80,y:730,text:'v1.2 - v1.3: Topluluk & İçerik'},
 ];
 
-// ═══════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════
 let tool='select',drawColor='#7c6aff',brushSz=3;
 let drawing=false,lx=0,ly=0;
 let nodes=[],conns=[],nid=0;
@@ -511,9 +540,6 @@ let appReady=false;
 const SKEY='logary_v3';
 let canvas,ctx,NL,SVG,wrap,VP;
 
-// ═══════════════════════════════════════
-// INIT APP (called after login)
-// ═══════════════════════════════════════
 function initApp(){
   if(appReady)return;
   appReady=true;
@@ -524,12 +550,12 @@ function initApp(){
   wrap=document.getElementById('wrap');
   VP=document.getElementById('viewport');
 
-  // Zoom/pan events
   wrap.addEventListener('wheel',e=>{
     e.preventDefault();
     const wr=wrap.getBoundingClientRect();
     zoomBy(e.deltaY<0?0.1:-0.1,e.clientX-wr.left,e.clientY-wr.top);
   },{passive:false});
+
   wrap.addEventListener('pointerdown',e=>{
     if(e.button===1||(e.button===0&&spaceDown)){
       isPanning=true;panSx=e.clientX;panSy=e.clientY;panOx=panX;panOy=panY;
@@ -541,6 +567,7 @@ function initApp(){
     panX=panOx+(e.clientX-panSx);panY=panOy+(e.clientY-panSy);applyVP();
   });
   wrap.addEventListener('pointerup',()=>{isPanning=false;wrap.style.cursor='';});
+
   document.addEventListener('keydown',e=>{
     if(e.code==='Space'&&e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='INPUT'){
       spaceDown=true;wrap.style.cursor='grab';e.preventDefault();
@@ -558,36 +585,31 @@ function initApp(){
   NL.addEventListener('input',()=>scheduleSave());
   document.getElementById('bsz').addEventListener('input',e=>brushSz=+e.target.value);
 
-  // Sync mob brush slider
   const mobBsz=document.getElementById('bszMob');
   if(mobBsz) mobBsz.addEventListener('input',e=>{brushSz=+e.target.value;document.getElementById('bsz').value=e.target.value;});
 
-  // ═══════════════════════════════════════
-  // TOUCH SYSTEM — tek parmak pan, iki parmak pinch-zoom
-  // ═══════════════════════════════════════
-  let t1={id:-1,x:0,y:0}, t2={id:-1,x:0,y:0};
-  let tPanOx=0, tPanOy=0;
-  let tPinchDist=0, tPinchScale=1, tPinchPanOx=0, tPinchPanOy=0;
-  let tNodeId=null, tNodeOx=0, tNodeOy=0; // for node dragging via touch
-  let tMode='none'; // 'pan' | 'pinch' | 'nodedrag' | 'draw'
+  let t1={id:-1,x:0,y:0},t2={id:-1,x:0,y:0};
+  let tPanOx=0,tPanOy=0;
+  let tPinchDist=0,tPinchScale=1,tPinchPanOx=0,tPinchPanOy=0;
+  let tNodeId=null,tNodeOx=0,tNodeOy=0;
+  let tMode='none';
 
   function getTouchById(list,id){for(let t of list)if(t.identifier===id)return t;return null;}
 
   VP.addEventListener('touchstart',e=>{
-    // node drag: touch started ON a node-drag handle
     for(let t of e.changedTouches){
       const el=document.elementFromPoint(t.clientX,t.clientY);
       const dragEl=el?.closest('.node-drag');
       if(dragEl&&tool!=='connect'){
-        const nid=+dragEl.id.replace('drag','');
-        const node=nodes.find(x=>x.id===nid);
+        const nodeId=+dragEl.id.replace('drag','');
+        const node=nodes.find(x=>x.id===nodeId);
         if(node){
-          tMode='nodedrag'; tNodeId=nid;
+          tMode='nodedrag';tNodeId=nodeId;
           tNodeOx=node.x-(t.clientX-panX)/scale;
           tNodeOy=node.y-(t.clientY-panY)/scale;
           t1={id:t.identifier,x:t.clientX,y:t.clientY};
-          selectNode(nid);
-          const nel=document.getElementById('n'+nid);
+          selectNode(nodeId);
+          const nel=document.getElementById('n'+nodeId);
           if(nel)nel.style.zIndex=800;
           e.stopPropagation();
           return;
@@ -598,28 +620,22 @@ function initApp(){
 
   wrap.addEventListener('touchstart',e=>{
     if(tMode==='nodedrag')return;
-
-    // Draw/erase mode — let canvas handle it
     if(tool==='draw'||tool==='erase'){tMode='draw';return;}
-
     const ct=e.changedTouches;
     if(e.touches.length===1){
       t1={id:ct[0].identifier,x:ct[0].clientX,y:ct[0].clientY};
-      tPanOx=panX; tPanOy=panY;
-      tMode='pan';
+      tPanOx=panX;tPanOy=panY;tMode='pan';
     } else if(e.touches.length===2){
       t1={id:e.touches[0].identifier,x:e.touches[0].clientX,y:e.touches[0].clientY};
       t2={id:e.touches[1].identifier,x:e.touches[1].clientX,y:e.touches[1].clientY};
       tPinchDist=Math.hypot(t1.x-t2.x,t1.y-t2.y);
-      tPinchScale=scale; tPinchPanOx=panX; tPinchPanOy=panY;
-      tMode='pinch';
+      tPinchScale=scale;tPinchPanOx=panX;tPinchPanOy=panY;tMode='pinch';
     }
   },{passive:true});
 
   wrap.addEventListener('touchmove',e=>{
     if(tMode==='draw')return;
     e.preventDefault();
-
     if(tMode==='nodedrag'&&e.touches.length>=1){
       const t=getTouchById(e.touches,t1.id)||e.touches[0];
       const node=nodes.find(x=>x.id===tNodeId);
@@ -632,49 +648,44 @@ function initApp(){
       }
       return;
     }
-
     if(tMode==='pan'&&e.touches.length===1){
       const t=e.touches[0];
       panX=tPanOx+(t.clientX-t1.x);
       panY=tPanOy+(t.clientY-t1.y);
-      applyVP(); return;
+      applyVP();return;
     }
-
     if(tMode==='pinch'&&e.touches.length===2){
-      const ta=e.touches[0], tb=e.touches[1];
+      const ta=e.touches[0],tb=e.touches[1];
       const dist=Math.hypot(ta.clientX-tb.clientX,ta.clientY-tb.clientY);
       const ratio=dist/tPinchDist;
       const ns=Math.min(3,Math.max(0.15,tPinchScale*ratio));
       const cx=(ta.clientX+tb.clientX)/2;
       const cy=(ta.clientY+tb.clientY)/2;
       const wr=wrap.getBoundingClientRect();
-      const ox=cx-wr.left, oy=cy-wr.top;
+      const ox=cx-wr.left,oy=cy-wr.top;
       panX=ox-(ox-tPinchPanOx)*(ns/tPinchScale);
       panY=oy-(oy-tPinchPanOy)*(ns/tPinchScale);
-      scale=ns; applyVP(); resizeCanvas(); return;
+      scale=ns;applyVP();resizeCanvas();return;
     }
-
-    // Switched from 1 finger to 2 mid-gesture
     if(tMode==='pan'&&e.touches.length===2){
       t1={id:e.touches[0].identifier,x:e.touches[0].clientX,y:e.touches[0].clientY};
       t2={id:e.touches[1].identifier,x:e.touches[1].clientX,y:e.touches[1].clientY};
       tPinchDist=Math.hypot(t1.x-t2.x,t1.y-t2.y);
-      tPinchScale=scale; tPinchPanOx=panX; tPinchPanOy=panY;
-      tMode='pinch';
+      tPinchScale=scale;tPinchPanOx=panX;tPinchPanOy=panY;tMode='pinch';
     }
   },{passive:false});
 
   wrap.addEventListener('touchend',e=>{
-    if(tMode==='nodedrag'){scheduleSave();}
+    if(tMode==='nodedrag')scheduleSave();
     if(e.touches.length===0){tMode='none';tNodeId=null;}
     else if(e.touches.length===1&&tMode==='pinch'){
-      // back to single finger pan
       t1={id:e.touches[0].identifier,x:e.touches[0].clientX,y:e.touches[0].clientY};
-      tPanOx=panX; tPanOy=panY; tMode='pan';
+      tPanOx=panX;tPanOy=panY;tMode='pan';
     }
   },{passive:true});
 
   wrap.addEventListener('touchcancel',()=>{tMode='none';tNodeId=null;},{passive:true});
+
   canvas.addEventListener('pointerdown',e=>{
     if(tool==='text'){
       const r=canvas.getBoundingClientRect();
@@ -709,9 +720,6 @@ function initApp(){
   setTool('select');
 }
 
-// ═══════════════════════════════════════
-// ZOOM / PAN
-// ═══════════════════════════════════════
 function applyVP(){
   VP.style.transform=`translate(${panX}px,${panY}px) scale(${scale})`;
   const gs=40*scale;
@@ -728,9 +736,6 @@ function zoomBy(delta,cx,cy){
 }
 function resetZoom(){scale=1;panX=0;panY=0;applyVP();resizeCanvas();}
 
-// ═══════════════════════════════════════
-// RESIZE
-// ═══════════════════════════════════════
 function resizeCanvas(){
   if(!canvas)return;
   const r=wrap.getBoundingClientRect();
@@ -744,9 +749,6 @@ function resizeCanvas(){
 }
 function resize(){resizeCanvas();applyVP();}
 
-// ═══════════════════════════════════════
-// SAVE / LOAD
-// ═══════════════════════════════════════
 function setSB(state,txt){
   const b=document.getElementById('sbadge');b.className='sbadge '+state;
   document.getElementById('stxt').textContent=txt;
@@ -787,23 +789,11 @@ function doLoad(){
   }catch(e){return false;}
 }
 
-// ═══════════════════════════════════════
-// TOOL
-// ═══════════════════════════════════════
-const HINTS={
-  select:'Node başlığına <b>tıkla</b> → yaz · Üst şeridi <b>sürükle</b> → taşı · <b>Space+sürükle</b> → kaydır',
-  draw:'<b>Sürükle</b> çiz · Renk & kalınlık seç',
-  erase:'<b>Sürükle</b> sil',
-  connect:'Bir node\'a <b>tıkla</b> → başlangıç seç → başka node\'a <b>tıkla</b> → bağla',
-  text:'Canvas\'a <b>tıkla</b> → metin ekle · Sürükle → taşı',
-};
 function setTool(t){
   tool=t;
-  // Desktop buttons
   ['Sel','Draw','Erase','Conn','Text'].forEach(n=>document.getElementById('t'+n)?.classList.remove('active'));
   const map={select:'Sel',draw:'Draw',erase:'Erase',connect:'Conn',text:'Text'};
   document.getElementById('t'+map[t])?.classList.add('active');
-  // Mobile buttons
   ['Sel','Draw','Erase','Conn','Text'].forEach(n=>document.getElementById('mt'+n)?.classList.remove('active'));
   document.getElementById('mt'+map[t])?.classList.add('active');
   if(t==='draw'||t==='erase'||t==='text'){
@@ -814,16 +804,20 @@ function setTool(t){
     canvas.style.pointerEvents='none';canvas.style.cursor='default';NL.style.pointerEvents='none';
   }
   if(t!=='connect'){connFrom=null;clearHL();}
-  document.getElementById('hint').innerHTML=HINTS[t]||'';
+  const hints={
+    select:'Node başlığına <b>tıkla</b> → yaz · Üst şeridi <b>sürükle</b> → taşı · <b>Space+sürükle</b> → kaydır',
+    draw:'<b>Sürükle</b> çiz · Renk & kalınlık seç',
+    erase:'<b>Sürükle</b> sil',
+    connect:'Bir node\'a <b>tıkla</b> → başlangıç seç → başka node\'a <b>tıkla</b> → bağla',
+    text:'Canvas\'a <b>tıkla</b> → metin ekle · Sürükle → taşı',
+  };
+  document.getElementById('hint').innerHTML=hints[t]||'';
 }
 function pickC(el){
   document.querySelectorAll('.cdot').forEach(d=>d.classList.remove('on'));
   el.classList.add('on');drawColor=el.dataset.c;
 }
 
-// ═══════════════════════════════════════
-// LABELS
-// ═══════════════════════════════════════
 function addLabel(x,y){
   const id=++lid;const label={id,x,y,text:''};
   labels.push(label);buildLabel(label,true);scheduleSave();
@@ -856,9 +850,6 @@ function buildLabel(label,focusNow=false){
 }
 function delLabel(id){labels=labels.filter(l=>l.id!==id);document.getElementById('l'+id)?.remove();scheduleSave();}
 
-// ═══════════════════════════════════════
-// NODES
-// ═══════════════════════════════════════
 const TLABEL={task:'GÖREV',start:'BAŞLANGIÇ',milestone:'KM TAŞI',end:'HEDEF'};
 function addNode(type,x,y){
   const id=++nid;
@@ -915,9 +906,6 @@ function delNode(id){
   document.getElementById('n'+id)?.remove();redrawConns();scheduleSave();
 }
 
-// ═══════════════════════════════════════
-// CONNECT
-// ═══════════════════════════════════════
 function handleConn(id,el){
   if(connFrom===null){connFrom=id;el.classList.add('sel');el.style.borderColor='#ffb86a';}
   else if(connFrom!==id){
@@ -951,12 +939,8 @@ function redrawConns(){
   });
 }
 
-// ═══════════════════════════════════════
-// CLEAR / EXPORT
-// ═══════════════════════════════════════
 function clearDraw(){ctx.clearRect(0,0,canvas.width,canvas.height);scheduleSave();}
 
-// ── MOBILE SHEET ──
 function toggleNodeSheet(){
   document.getElementById('mobSheet').classList.toggle('open');
   document.getElementById('mobOverlay').classList.toggle('show');
@@ -990,9 +974,6 @@ async function exportPNG(){
   }
 }
 
-// ═══════════════════════════════════════
-// PRESET LOADER
-// ═══════════════════════════════════════
 function loadPreset(){
   nodes=[...PRESET_NODES.map(n=>({...n}))];
   conns=[...PRESET_CONNS.map(c=>({...c}))];
@@ -1013,13 +994,8 @@ function loadPreset(){
   setTimeout(()=>{redrawConns();doSave();},150);
 }
 
-// ═══════════════════════════════════════
-// STARTUP
-// ═══════════════════════════════════════
 window.addEventListener('load',()=>{
-  // Şifre input'una odaklan
   document.getElementById('pwInput').focus();
-  // Eğer oturum açıksa direkt giriş yap
   if(isLoggedIn()){
     document.getElementById('loginScreen').style.display='none';
     initApp();
