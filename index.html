@@ -1003,41 +1003,56 @@ async function uploadBugFiles(){
 
 async function submitBug(){
   const text=document.getElementById('bugText').value.trim();
-  if(!text&&bugPendingFiles.filter(Boolean).length===0){alert('Açıklama yaz veya dosya ekle!');return;}
+  const validFiles=bugPendingFiles.filter(Boolean);
+  if(!text&&validFiles.length===0){alert('Açıklama yaz veya dosya ekle!');return;}
   const btn=document.getElementById('bugSendBtn');btn.disabled=true;btn.textContent='Gönderiliyor…';
   try{
     const urls=await uploadBugFiles();
-    const res=await fetch(`${SUPA_URL}/rest/v1/bugreports`,{
+    await fetch(`${SUPA_URL}/rest/v1/bugreports`,{
       method:'POST',
       headers:{...SUPA_HEADERS,'Prefer':'return=representation'},
       body:JSON.stringify({content:text,media_url:urls.join(','),status:'open'})
     });
-    const rows=await res.json();
+    await sendBugToDiscord(text,urls,validFiles);
     document.getElementById('bugText').value='';
     bugPendingFiles=[];
     document.querySelectorAll('.bug-preview').forEach(p=>p.remove());
-    await sendBugToDiscord(text,urls);
     setBugTab('open');
   }catch(e){alert('Gönderilemedi: '+e.message);}
   btn.disabled=false;btn.textContent='🐛 Gönder';
 }
 
-async function sendBugToDiscord(content,mediaUrls=[]){
+async function sendBugToDiscord(content,mediaUrls=[],rawFiles=[]){
   try{
-    const embeds=[{
-      title:'🐛 Yeni Bug Raporu',
-      description:content||'(açıklama yok)',
-      color:0xff6a8a,
-      fields:[{name:'Durum',value:'🔴 Açık',inline:true},{name:'Zaman',value:new Date().toLocaleString('tr-TR'),inline:true}],
-      footer:{text:'Logary Bug Reports'},
-      timestamp:new Date().toISOString()
-    }];
-    const imgUrls=mediaUrls.filter(u=>!u.match(/\.(mp4|webm|mov)/i));
-    const videoUrls=mediaUrls.filter(u=>u.match(/\.(mp4|webm|mov)/i));
-    if(imgUrls.length>0) embeds[0].image={url:imgUrls[0]};
-    imgUrls.slice(1).forEach(u=>embeds.push({image:{url:u},color:0xff6a8a}));
-    if(videoUrls.length>0) embeds[0].fields.push({name:'🎥 Video',value:videoUrls.map(u=>`[İzle](${u})`).join('\n'),inline:false});
-    await fetch(BUG_WEBHOOK+'?wait=true',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'Logary Bug Bot',embeds})});
+    const now=new Date();
+    const payload={
+      username:'Logary Bug Bot',
+      embeds:[{
+        title:'🐛 Yeni Bug Raporu',
+        description:content||'(açıklama yok)',
+        color:0xff6a8a,
+        fields:[
+          {name:'Durum',value:'🔴 Açık',inline:true},
+          {name:'Zaman',value:now.toLocaleString('tr-TR'),inline:true}
+        ],
+        footer:{text:'Logary Bug Reports'},
+        timestamp:now.toISOString()
+      }]
+    };
+
+    if(rawFiles.length>0){
+      const form=new FormData();
+      form.append('payload_json',JSON.stringify(payload));
+      const imageFiles=rawFiles.filter(f=>f&&f.type.startsWith('image/'));
+      const videoFiles=rawFiles.filter(f=>f&&f.type.startsWith('video/'));
+      imageFiles.slice(0,4).forEach((f,i)=>form.append(`files[${i}]`,f,f.name));
+      if(imageFiles.length>0) payload.embeds[0].image={url:`attachment://${imageFiles[0].name}`};
+      if(videoFiles.length>0) payload.embeds[0].fields.push({name:'🎥 Video',value:mediaUrls.filter(u=>u.match(/\.(mp4|webm|mov)/i)).map(u=>`[İzle](${u})`).join('\n'),inline:false});
+      form.set('payload_json',JSON.stringify(payload));
+      await fetch(BUG_WEBHOOK+'?wait=true',{method:'POST',body:form});
+    } else {
+      await fetch(BUG_WEBHOOK+'?wait=true',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    }
   }catch(e){console.warn('Bug Discord hatası:',e);}
 }
 
