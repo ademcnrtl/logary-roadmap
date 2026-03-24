@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Logary Roadmap</title>
+<title>Logary Roadmap & QA</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -499,12 +499,12 @@ body.tester-mode .bug-tester-logout { display: block; }
   </div>
 </div>
 
-<div id="expOverlay"><div class="spin"></div><p>Görsel hazırlanıyor</p></div>
+<div id="expOverlay"><div class="spin"></div><p>Görsel hazırlanıyor…</p></div>
 
 <div id="bugPanel">
   <div class="bug-header">
     <div class="bug-header-title">
-      <div class="bug-header-dot"></div>Logary Beta Tester Paneli
+      <div class="bug-header-dot"></div>Logary Bug Reports
       <span id="testerNameDisp" style="font-size:11.5px; color:var(--muted); margin-left:8px; font-weight:500; font-family:'DM Sans',sans-serif;"></span>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
@@ -533,6 +533,10 @@ body.tester-mode .bug-tester-logout { display: block; }
         <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:12px;">
           <span style="color:var(--muted);">Logary API (Backend):</span>
           <span style="color:var(--accent3); font-weight:600; display:flex; align-items:center; gap:4px;"><div class="online-dot" style="position:static;"></div> Operasyonel</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; padding-top:8px; border-top:1px dashed var(--border);">
+          <span style="color:var(--muted);">Hedef Lansman:</span>
+          <span style="color:#ffb86a; font-weight:600;">29 Mart 2026</span>
         </div>
       </div>
 
@@ -642,7 +646,6 @@ let logClickCount=0,logClickTimer=null;
 
 const DISCORD_WEBHOOK='https://discord.com/api/webhooks/1485407990080082115/C-I_U4t3VdyLc2p_j6UN6G178kKwVjuUXZJeJgS_VxFBATdRZWQvwdO_MuhiKdnJqess';
 const DC_COLORS={node:0x7c6aff,start:0x6affcc,milestone:0xffb86a,end:0xff6a8a,delete:0xff4444,edit:0x5b8cff,progress:0xffb86a,conn:0x7ab4e8};
-const DC_ICONS={task:'📋',start:'🚀',milestone:'🏁',end:'🎯',delete:'🗑️',edit:'✏️',progress:'📊',conn:'🔗'};
 
 function progressBar(pct){const f=Math.round(pct/10);return '█'.repeat(f)+'░'.repeat(10-f)+` ${pct}%`;}
 
@@ -657,8 +660,7 @@ async function sendDiscord(type,nodeType,title,desc='',progress=null,extra=null)
     if(extra)fields.push({name:'Detay',value:extra,inline:false});
     fields.push({name:'Zaman',value:timeStr,inline:true});
     const typeLabels={task:'Görev',start:'Başlangıç',milestone:'Kilometre Taşı',end:'Hedef'};
-    const icon=DC_ICONS[nodeType]||DC_ICONS[type]||'📌';
-    if(nodeType&&typeLabels[nodeType])fields.push({name:'Tip',value:`${icon} ${typeLabels[nodeType]}`,inline:true});
+    if(nodeType&&typeLabels[nodeType])fields.push({name:'Tip',value:`${typeLabels[nodeType]}`,inline:true});
     const actionLabels={node:'Yeni Node Eklendi',delete:'Node Silindi',edit:'Node Güncellendi',progress:'İlerleme Güncellendi',conn:'Bağlantı Eklendi'};
     const res=await fetch(DISCORD_WEBHOOK+'?wait=true',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'Logary Roadmap',embeds:[{title:actionLabels[type]||type,description:`**${title||'(başlıksız)'}**`,color,fields,footer:{text:'Logary Roadmap • logaryapp.github.io'},timestamp:now.toISOString()}]})});
     if(!res.ok){const err=await res.text();console.warn('Discord hata:',res.status,err);}
@@ -687,7 +689,6 @@ function closeLog(){document.getElementById('logPanel').classList.remove('open')
 function setLogFilter(el){document.querySelectorAll('.log-chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');logFilter=el.dataset.f;renderLog();}
 function clearLog(){if(!confirm('Log temizlenecek. Emin misin?'))return;localStorage.removeItem(LOG_KEY);renderLog();}
 
-const LOG_ICONS={node:'📋',edit:'✏️',progress:'📊',conn:'🔗',delete:'🗑️'};
 const LOG_COLORS={node:'rgba(124,106,255,.15)',edit:'rgba(106,255,204,.12)',progress:'rgba(255,184,106,.12)',conn:'rgba(122,180,232,.12)',delete:'rgba(255,106,138,.12)'};
 
 function renderLog(){
@@ -703,9 +704,8 @@ function renderLog(){
     const d=new Date(l.ts);
     const dateStr=d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit'});
     const timeStr=d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-    const icon=LOG_ICONS[l.type]||'📌';
     const bg=LOG_COLORS[l.type]||'rgba(124,106,255,.1)';
-    return `<div class="log-item"><div class="log-icon" style="background:${bg}">${icon}</div><div class="log-content"><div class="log-action">${l.action}</div>${l.detail?`<div class="log-detail">${l.detail}</div>`:''}<div class="log-time">${dateStr} ${timeStr}</div></div></div>`;
+    return `<div class="log-item"><div class="log-icon" style="background:${bg}">📌</div><div class="log-content"><div class="log-action">${l.action}</div>${l.detail?`<div class="log-detail">${l.detail}</div>`:''}<div class="log-time">${dateStr} ${timeStr}</div></div></div>`;
   }).join('');
 }
 
@@ -719,37 +719,41 @@ function setupLogoClick(){
   });
 }
 
-async function sha256(msg){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+// Şifre Sistemi - Direkt Eşleştirme (Daha hızlı ve güvenilir)
+const ADMIN_CREDENTIALS = {
+  'ademcanadmin6060': 'owner',
+  'logarymjademadmin': 'partner'
+};
 
-const PW_OWNER='ademcanadmin6060';
-const PW_PARTNER='logarymjademadmin';
-const PW_T1='darknelfsslogaryabug';
-const PW_T2='asellogarybug';
-const PW_T3='papexlogarybug';
+const TESTER_CREDENTIALS = {
+  'darknelfsslogaryabug': 'Darknelfss',
+  'asellogarybug': 'Asel',
+  'papexlogarybug': 'Papex'
+};
 
 function isLoggedIn(){return sessionStorage.getItem('logary_auth')==='1';}
 function isOwner(){return sessionStorage.getItem('logary_role')==='owner';}
 
-async function doLogin(){
+function doLogin(){
   const pw=document.getElementById('pwInput').value.trim();
   const inp=document.getElementById('pwInput');
   const err=document.getElementById('loginErr');
-  if(!pw){inp.classList.add('err');setTimeout(()=>inp.classList.remove('err'),400);return;}
   
-  const hashes = await Promise.all([
-      sha256(pw), sha256(PW_OWNER), sha256(PW_PARTNER),
-      sha256(PW_T1), sha256(PW_T2), sha256(PW_T3)
-  ]);
-  const [hashInput, hashOwner, hashPartner, hashT1, hashT2, hashT3] = hashes;
-
+  if(!pw){
+    inp.classList.add('err');
+    setTimeout(()=>inp.classList.remove('err'),400);
+    return;
+  }
+  
   let role = null;
   let testerName = '';
 
-  if(hashInput===hashOwner){ role = 'owner'; }
-  else if(hashInput===hashPartner){ role = 'partner'; }
-  else if(hashInput===hashT1){ role = 'tester'; testerName = 'Darknelfss'; }
-  else if(hashInput===hashT2){ role = 'tester'; testerName = 'Asel'; }
-  else if(hashInput===hashT3){ role = 'tester'; testerName = 'Papex'; }
+  if (ADMIN_CREDENTIALS[pw]) {
+    role = ADMIN_CREDENTIALS[pw];
+  } else if (TESTER_CREDENTIALS[pw]) {
+    role = 'tester';
+    testerName = TESTER_CREDENTIALS[pw];
+  }
 
   if(role){
     sessionStorage.setItem('logary_auth','1');
@@ -757,7 +761,8 @@ async function doLogin(){
     if(testerName) sessionStorage.setItem('logary_tester_name', testerName);
 
     const ls=document.getElementById('loginScreen');
-    ls.style.opacity='0';ls.style.transition='opacity .4s';
+    ls.style.opacity='0';
+    ls.style.transition='opacity .4s';
     setTimeout(()=>{ls.style.display='none';},400);
     err.classList.remove('show');
     
@@ -768,7 +773,9 @@ async function doLogin(){
         if(role==='owner') setTimeout(openLog,600);
     }
   }else{
-    inp.classList.add('err');err.classList.add('show');inp.value='';
+    inp.classList.add('err');
+    err.classList.add('show');
+    inp.value='';
     setTimeout(()=>inp.classList.remove('err'),400);
   }
 }
@@ -1182,7 +1189,7 @@ async function loadBugs(){
     let statusFilter = bugTab === 'open' ? 'in.(open,investigating)' : 'in.(resolved,duplicate,not_a_bug)';
     const res=await fetch(`${SUPA_URL}/rest/v1/bugreports?status=${statusFilter}&order=created_at.desc`,{headers:SUPA_HEADERS});
     const bugs=await res.json();
-    if(!bugs||bugs.length===0){list.innerHTML=`<div class="bug-empty-state"><div class="bug-empty-icon">${bugTab==='open'?'🎉':'📭'}</div><span>${bugTab==='open'?'Hiç açık bug yok!':'Henüz çözülen bug yok'}</span></div>`;return;}
+    if(!bugs||bugs.length===0){list.innerHTML=`<div class="bug-empty-state"><div class="bug-empty-icon">${bugTab==='open'?'🎉':'📭'}</div><span>${bugTab==='open'?'Hiç açık hata raporu yok':'Henüz çözülen rapor yok'}</span></div>`;return;}
     list.innerHTML=bugs.map(b=>renderBugItem(b)).join('');
   }catch(e){list.innerHTML=`<div class="bug-empty-state"><div class="bug-empty-icon">⚠️</div><span>Yüklenemedi</span></div>`;}
 }
@@ -1420,7 +1427,6 @@ async function changeBugStatus(id, status){
     
     await fetch(`${SUPA_URL}/rest/v1/bugreports?id=eq.${id}`,{method:'PATCH',headers:SUPA_HEADERS,body:JSON.stringify({status})});
     
-    const statusMap = {'open': 'Yeniden Açıldı', 'resolved': 'Çözüldü', 'investigating': 'İnceleniyor', 'duplicate': 'Kopya', 'not_a_bug': 'Hata Değil'};
     const dcStatusMap = {'open': 'Yeniden Açıldı', 'resolved': 'Çözüldü', 'investigating': 'İnceleniyor', 'duplicate': 'Kopya', 'not_a_bug': 'Hata Değil'};
     const dcStatusColors = {'open': 0xff4444, 'resolved': 0x6affcc, 'investigating': 0xffb86a, 'duplicate': 0xc46aff, 'not_a_bug': 0x7a7a96};
     
@@ -1503,8 +1509,8 @@ function checkDeadlines(){
     if(!n.deadline||n.progress===100)return;
     const today=new Date();today.setHours(0,0,0,0);
     const diff=Math.ceil((new Date(n.deadline)-today)/(1000*60*60*24));
-    if(diff===0)showToast(`Bugün bitiş: <b>${n.title}</b>`,'warn','⏰',6000);
-    else if(diff<0)showToast(`Gecikmiş: <b>${n.title}</b> (${Math.abs(diff)} gün)`,'warn','🚨',6000);
+    if(diff===0)showToast(`Bugün bitiş: <b>${n.title}</b>`,'warn');
+    else if(diff<0)showToast(`Gecikmiş: <b>${n.title}</b> (${Math.abs(diff)} gün)`,'warn');
   });
 }
 
@@ -1540,7 +1546,7 @@ function hideShortcuts(){document.getElementById('shortcutsPanel').classList.rem
 function toggleFullscreen(){
   document.body.classList.toggle('fullscreen');
   const isFs=document.body.classList.contains('fullscreen');
-  showToast(isFs?'Tam ekran modu aktif':'Normal görünüm','info',isFs?'⛶':'⊡');
+  showToast(isFs?'Tam ekran modu aktif':'Normal görünüm','info');
 }
 </script>
 </body>
