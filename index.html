@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Logary Roadmap & QA</title>
+<title>Logary Roadmap</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
   --bg:#0f0f13; --surface:#1a1a22; --surface2:#22222e; --border:#2e2e3e;
@@ -34,7 +33,7 @@ body{display:flex;flex-direction:column;}
 .login-dots{display:flex;gap:6px;justify-content:center;margin-top:4px;}
 .login-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s;}
 .topbar{display:flex;align-items:center;gap:10px;padding:9px 16px;background:var(--surface);border-bottom:1px solid var(--border);z-index:200;flex-shrink:0;}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.5px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:6px;cursor:pointer;user-select:none;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.5px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:6px;user-select:none;}
 .sep{width:1px;height:22px;background:var(--border);margin:0 2px;flex-shrink:0;}
 .tbtn{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;cursor:pointer;transition:all .15s;white-space:nowrap;}
 .tbtn svg{width:14px;height:14px;}
@@ -54,7 +53,6 @@ body{display:flex;flex-direction:column;}
 .abtn:hover{border-color:var(--accent);color:var(--accent);}
 .abtn.pri{background:var(--accent);border-color:var(--accent);color:#fff;}
 .abtn.pri:hover{background:#6a58e8;}
-.abtn:disabled{opacity:.5;cursor:default;}
 .abtn.logout{border-color:rgba(255,106,138,.3);color:var(--accent2);}
 .abtn.logout:hover{border-color:var(--accent2);background:rgba(255,106,138,.08);}
 .wrap{flex:1;position:relative;overflow:hidden;}
@@ -110,39 +108,6 @@ body{display:flex;flex-direction:column;}
 .nicon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:6px 15px;font-size:11.5px;color:var(--muted);pointer-events:none;white-space:nowrap;z-index:100;}
 .hint b{color:var(--accent);}
-#expOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
-#expOverlay.show{display:flex;}
-#expOverlay p{color:var(--text);font-size:13.5px;}
-.spin{width:34px;height:34px;border:3px solid rgba(124,106,255,.3);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;}
-@keyframes sp{to{transform:rotate(360deg);}}
-#logPanel{position:fixed;top:0;right:0;bottom:0;z-index:500;width:340px;max-width:90vw;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:-12px 0 48px rgba(0,0,0,.5);}
-#logPanel.open{transform:translateX(0);}
-.log-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.log-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);display:flex;align-items:center;gap:8px;}
-.log-title-dot{width:7px;height:7px;border-radius:50%;background:var(--accent3);flex-shrink:0;}
-.log-close{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.log-close:hover{border-color:var(--accent2);color:var(--accent2);}
-.log-stats{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0;}
-.log-stat{flex:1;padding:10px 14px;text-align:center;border-right:1px solid var(--border);}
-.log-stat:last-child{border-right:none;}
-.log-stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--accent);}
-.log-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
-.log-filter{display:flex;gap:4px;padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;}
-.log-chip{padding:3px 9px;border-radius:20px;font-size:10.5px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;}
-.log-chip.on{background:var(--accent);border-color:var(--accent);color:#fff;}
-.log-list{flex:1;overflow-y:auto;padding:8px;}
-.log-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--muted);font-size:13px;}
-.log-empty-icon{font-size:36px;opacity:.4;}
-.log-item{display:flex;gap:10px;padding:10px 8px;border-radius:10px;transition:background .15s;margin-bottom:2px;}
-.log-item:hover{background:var(--surface2);}
-.log-icon{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
-.log-content{flex:1;min-width:0;}
-.log-action{font-size:12.5px;font-weight:500;color:var(--text);line-height:1.3;}
-.log-detail{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.log-time{font-size:10px;color:var(--text3,#555);margin-top:3px;font-family:'DM Sans',monospace;}
-.log-clear{padding:12px;border-top:1px solid var(--border);flex-shrink:0;}
-.log-clear button{width:100%;padding:9px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;cursor:pointer;transition:all .15s;}
-.log-clear button:hover{border-color:var(--accent2);color:var(--accent2);}
 .mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--surface);border-top:1px solid var(--border);padding:8px 12px calc(8px + env(safe-area-inset-bottom));flex-direction:column;gap:8px;box-shadow:0 -8px 32px rgba(0,0,0,.4);}
 .mob-tools{display:flex;gap:3px;background:var(--surface2);border-radius:14px;padding:4px;}
 .mob-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 2px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;cursor:pointer;transition:all .18s;min-height:46px;}
@@ -181,8 +146,6 @@ body{display:flex;flex-direction:column;}
 .online-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .online-dot.away{background:#ffb86a;animation:none;}
-.bug-count-badge{background:var(--accent2);color:#fff;font-size:9px;font-weight:700;font-family:'Syne',sans-serif;padding:1px 5px;border-radius:10px;margin-left:4px;display:none;}
-.bug-count-badge.show{display:inline;}
 .progress-summary{display:flex;align-items:center;gap:6px;padding:3px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);font-size:11px;color:var(--muted);white-space:nowrap;}
 .progress-summary-bar{width:50px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
 .progress-summary-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent3));transition:width .5s;}
@@ -214,99 +177,10 @@ body.fullscreen .mob-bar{display:none!important;}
 body.fullscreen .zoom-controls{bottom:14px;}
 .fullscreen-exit{display:none;position:fixed;top:10px;right:10px;z-index:9999;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--muted);cursor:pointer;}
 body.fullscreen .fullscreen-exit{display:flex;align-items:center;gap:5px;}
-#bugPanel{position:fixed;top:0;left:0;bottom:0;z-index:500;width:420px;max-width:100vw;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:12px 0 48px rgba(0,0,0,.5);overflow:hidden;}
-#bugPanel.open{transform:translateX(0);}
-.bug-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface);}
-.bug-header-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);display:flex;align-items:center;gap:8px;}
-.bug-header-dot{width:7px;height:7px;border-radius:50%;background:var(--accent2);flex-shrink:0;}
-.bug-close{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.bug-close:hover{border-color:var(--accent2);color:var(--accent2);}
-.bug-panel-body{display:flex;flex-direction:column;flex:1;overflow:hidden;}
-.bug-main{display:flex;flex-direction:column;flex:1;min-height:0;}
-.bug-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
-.bug-tab{flex:1;padding:10px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all .15s;}
-.bug-tab.on{color:var(--accent2);border-bottom-color:var(--accent2);}
-.bug-list{flex:1;overflow-y:auto;padding:16px;}
-.bug-item{background:var(--node-bg);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .2s;}
-.bug-item:hover{border-color:rgba(255,106,138,.3);}
-.bug-item.resolved,.bug-item.duplicate,.bug-item.not_a_bug{border-color:rgba(106,255,204,.25);opacity:.75;}
-.bug-item-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 0;}
-.bug-status{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;}
-.bug-status.open{background:rgba(255,106,138,.15);color:var(--accent2);border:1px solid rgba(255,106,138,.3);}
-.bug-status.resolved{background:rgba(106,255,204,.12);color:var(--accent3);border:1px solid rgba(106,255,204,.25);}
-.bug-status.investigating{background:rgba(255,184,106,.15);color:#ffb86a;border:1px solid rgba(255,184,106,.3);}
-.bug-status.duplicate{background:rgba(196,106,255,.15);color:#c46aff;border:1px solid rgba(196,106,255,.3);}
-.bug-status.not_a_bug{background:rgba(232,232,240,.1);color:var(--muted);border:1px solid rgba(232,232,240,.2);}
-.bug-time{font-size:10px;color:var(--muted);}
-.bug-content{padding:8px 12px;font-size:12.5px;color:var(--text);line-height:1.5;white-space:pre-wrap;word-break:break-word;}
-.bug-media{padding:0 12px 8px;display:flex;gap:6px;flex-wrap:wrap;}
-.bug-media-item{width:80px;height:60px;border-radius:8px;object-fit:cover;cursor:pointer;border:1px solid var(--border);}
-.bug-media-video{width:120px;height:70px;border-radius:8px;object-fit:cover;}
-.bug-reply-box{padding:8px 12px;border-top:1px solid var(--border);background:rgba(106,255,204,.04);}
-.bug-reply-text{font-size:11.5px;color:var(--accent3);line-height:1.4;white-space:pre-wrap;}
-.bug-reply-label{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent3);margin-bottom:4px;opacity:.7;}
-.bug-actions{display:flex;gap:6px;padding:8px 12px 10px;}
-.bug-action-btn{flex:1;padding:7px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer;transition:all .15s;}
-.bug-action-btn:hover{border-color:var(--accent);color:var(--accent);}
-.bug-action-btn.resolve{border-color:rgba(106,255,204,.3);color:var(--accent3);}
-.bug-action-btn.resolve:hover{background:rgba(106,255,204,.1);}
-.bug-reply-input{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12.5px;outline:none;margin-bottom:6px;transition:border-color .2s;}
-.bug-reply-input:focus{border-color:var(--accent3);}
-.bug-reply-submit{width:100%;padding:8px;border-radius:8px;border:none;background:var(--accent3);color:var(--ink,#0f0f13);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;}
-.bug-reply-submit:hover{opacity:.85;}
-.bug-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:10px;color:var(--muted);font-size:13px;}
-.bug-empty-icon{font-size:40px;opacity:.35;}
-.bug-author-badge{font-size:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:600;background:rgba(124,106,255,0.15);border:1px solid rgba(124,106,255,0.3);padding:3px 8px;border-radius:6px;}
-.bug-type-badge{font-size:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:500;background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:6px;}
-.bug-device-badge{font-size:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:500;background:transparent;border:1px dashed var(--border);padding:3px 8px;border-radius:6px;}
-.admin-status-sel{background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:4px 8px;border-radius:6px;font-size:11px;outline:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.bug-sidebar{display:flex;flex-direction:column;flex-shrink:0;}
-.bug-new{flex-shrink:0;border-top:1px solid var(--border);padding:14px;background:var(--surface);}
-.bug-new-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.bug-new-type{width:100%;padding:10px 12px;margin-bottom:10px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;transition:border-color .2s;}
-.bug-new-type:focus{border-color:var(--accent2);}
-.bug-new-ta{width:100%;min-height:80px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;resize:none;outline:none;line-height:1.5;transition:border-color .2s;touch-action:auto;}
-.bug-new-ta:focus{border-color:var(--accent2);}
-.bug-new-ta::placeholder{color:var(--muted);}
-.bug-media-row{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap;}
-.bug-preview{position:relative;width:64px;height:52px;}
-.bug-preview img,.bug-preview video{width:64px;height:52px;border-radius:8px;object-fit:cover;border:1px solid var(--border);}
-.bug-preview-del{position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:var(--accent2);color:#fff;font-size:10px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.bug-upload-btn{width:52px;height:52px;border-radius:8px;border:1.5px dashed var(--border);background:transparent;color:var(--muted);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.bug-upload-btn:hover{border-color:var(--accent2);color:var(--accent2);}
-.bug-send-row{display:flex;gap:8px;margin-top:10px;}
-.bug-send-btn{flex:1;padding:10px;border-radius:10px;border:none;background:var(--accent2);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;}
-.bug-send-btn:hover{background:#e8557a;}
-.bug-send-btn:disabled{opacity:.5;cursor:default;}
-@media(max-width:768px){
-  #bugPanel{width:100%;border-right:none;top:auto;bottom:0;height:88vh;transform:translateY(100%);border-radius:20px 20px 0 0;box-shadow:0 -16px 48px rgba(0,0,0,.5);}
-  #bugPanel.open{transform:translateY(0);}
-  .bug-header{padding:16px;}
-  .bug-tabs{padding:0 16px;}
-  .bug-list{padding:16px;}
-  .bug-main,.bug-sidebar{border-radius:12px;}
-}
-body.tester-mode .topbar,body.tester-mode .wrap,body.tester-mode .mob-bar,body.tester-mode .side-panel,body.tester-mode .zoom-controls,body.tester-mode .fullscreen-exit,body.tester-mode #shortcutsPanel{display:none!important;}
-body.tester-mode #bugPanel{width:100vw!important;max-width:100vw!important;height:100vh!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;border:none!important;box-shadow:none!important;transform:translateX(0) translateY(0)!important;border-radius:0!important;background:var(--bg)!important;}
-body.tester-mode .bug-header{padding:20px 32px;background:var(--surface);border-bottom:1px solid var(--border);}
-body.tester-mode .bug-close{display:none!important;}
-body.tester-mode .bug-panel-body{flex-direction:row;padding:24px 32px;gap:24px;}
-body.tester-mode .bug-main{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,0.2);}
-body.tester-mode .bug-sidebar{width:380px;border-top:none;background:transparent;display:flex;flex-direction:column;gap:20px;}
-body.tester-mode .bug-new{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 12px 32px rgba(0,0,0,0.2);}
-.bug-tester-logout{display:none;padding:8px 16px;border-radius:10px;background:rgba(255,106,138,.1);color:var(--accent2);border:1px solid rgba(255,106,138,.3);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
-.bug-tester-logout:hover{background:rgba(255,106,138,.2);transform:translateY(-1px);}
-body.tester-mode .bug-tester-logout{display:block;}
-@media(max-width:900px){body.tester-mode .bug-panel-body{flex-direction:column;padding:16px;gap:16px;}body.tester-mode .bug-sidebar{width:100%;}}
 #lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;}
 #lightbox.show{display:flex;}
 #lightbox img,#lightbox video{max-width:92vw;max-height:88vh;border-radius:12px;}
 #lightbox-close{position:absolute;top:18px;right:20px;background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer;}
-.bug-topbar-btn{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid rgba(255,106,138,.3);border-radius:8px;background:transparent;color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:12.5px;cursor:pointer;transition:all .15s;}
-.bug-topbar-btn:hover{background:rgba(255,106,138,.08);}
-.bug-topbar-btn svg{width:14px;height:14px;}
-.mob-bug-btn{width:44px;height:44px;border-radius:11px;border:1px solid rgba(255,106,138,.3);background:transparent;color:var(--accent2);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.mob-bug-btn:active{transform:scale(.93);}
 </style>
 </head>
 <body>
@@ -317,7 +191,7 @@ body.tester-mode .bug-tester-logout{display:block;}
     <div class="login-sub">Roadmap — Admin Girişi</div>
     <div>
       <div class="login-label">Şifre</div>
-      <input class="login-input" id="pwInput" type="password" placeholder="Admin veya Tester şifresi…" onkeydown="if(event.key==='Enter')doLogin()">
+      <input class="login-input" id="pwInput" type="password" placeholder="Admin şifresi…" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
     <div class="login-err" id="loginErr">Yanlış şifre. Tekrar dene.</div>
     <button class="login-btn" onclick="doLogin()">Giriş Yap →</button>
@@ -360,15 +234,9 @@ body.tester-mode .bug-tester-logout{display:block;}
   </div>
   <div class="sbadge" id="sbadge"><div class="sdot"></div><span id="stxt">Kaydedildi</span></div>
   <button class="abtn" onclick="clearDraw()">Çizimi Temizle</button>
-  <button class="abtn" onclick="clearAll()">Sıfırla</button>
-  <button class="abtn pri" id="expBtn" onclick="exportPNG()">PNG İndir</button>
   <button class="abtn" onclick="toggleFullscreen()" title="Tam Ekran (F11)">⛶</button>
   <button class="abtn" onclick="showShortcuts()" title="Kısayollar (?)">?</button>
   <button class="abtn logout" onclick="doLogout()">Çıkış</button>
-  <button class="bug-topbar-btn" onclick="openBug()">
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-    Bug<span class="bug-count-badge" id="bugCountBadge">0</span>
-  </button>
 </div>
 
 <div class="wrap" id="wrap">
@@ -394,27 +262,6 @@ body.tester-mode .bug-tester-logout{display:block;}
   <div class="hint" id="hint">Seç · Kalem · Silgi · Bağla · Metin · Sürükle · Zoom</div>
 </div>
 
-<div id="logPanel">
-  <div class="log-header">
-    <div class="log-title"><div class="log-title-dot"></div>Aktivite Logu</div>
-    <button class="log-close" onclick="closeLog()">×</button>
-  </div>
-  <div class="log-stats">
-    <div class="log-stat"><div class="log-stat-val" id="ls-total">0</div><div class="log-stat-lbl">İşlem</div></div>
-    <div class="log-stat"><div class="log-stat-val" id="ls-today">0</div><div class="log-stat-lbl">Bugün</div></div>
-    <div class="log-stat"><div class="log-stat-val" id="ls-nodes">0</div><div class="log-stat-lbl">Node</div></div>
-  </div>
-  <div class="log-filter">
-    <button class="log-chip on" data-f="all" onclick="setLogFilter(this)">Tümü</button>
-    <button class="log-chip" data-f="node" onclick="setLogFilter(this)">Node</button>
-    <button class="log-chip" data-f="edit" onclick="setLogFilter(this)">Düzenleme</button>
-    <button class="log-chip" data-f="progress" onclick="setLogFilter(this)">İlerleme</button>
-    <button class="log-chip" data-f="conn" onclick="setLogFilter(this)">Bağlantı</button>
-  </div>
-  <div class="log-list" id="logList"></div>
-  <div class="log-clear"><button onclick="clearLog()">Logu Temizle</button></div>
-</div>
-
 <div id="toastContainer"></div>
 <button class="fullscreen-exit" onclick="toggleFullscreen()">⛶ Tam Ekrandan Çık</button>
 
@@ -430,85 +277,12 @@ body.tester-mode .bug-tester-logout{display:block;}
       <div class="shortcut-item"><span class="shortcut-desc">Kaydır</span><span class="shortcut-key">Space+Sürükle</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Zoom +</span><span class="shortcut-key">Ctrl +</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Zoom -</span><span class="shortcut-key">Ctrl -</span></div>
-      <div class="shortcut-item"><span class="shortcut-desc">Sıfırla</span><span class="shortcut-key">Ctrl 0</span></div>
+      <div class="shortcut-item"><span class="shortcut-desc">Sıfırla(Zoom)</span><span class="shortcut-key">Ctrl 0</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Node Sil</span><span class="shortcut-key">Delete</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Arama</span><span class="shortcut-key">Ctrl F</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Tam Ekran</span><span class="shortcut-key">F11</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">Kısayollar</span><span class="shortcut-key">?</span></div>
       <div class="shortcut-item"><span class="shortcut-desc">İptal</span><span class="shortcut-key">Esc</span></div>
-    </div>
-  </div>
-</div>
-
-<div id="expOverlay"><div class="spin"></div><p>Görsel hazırlanıyor…</p></div>
-
-<div id="bugPanel">
-  <div class="bug-header">
-    <div class="bug-header-title">
-      <div class="bug-header-dot"></div>Logary Bug Reports
-      <span id="testerNameDisp" style="font-size:11.5px;color:var(--muted);margin-left:8px;font-weight:500;font-family:'DM Sans',sans-serif;"></span>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <button class="bug-tester-logout" onclick="doLogout()">Çıkış Yap</button>
-      <button class="bug-close" onclick="closeBug()">×</button>
-    </div>
-  </div>
-  <div class="bug-panel-body">
-    <div class="bug-main">
-      <div class="bug-tabs">
-        <button class="bug-tab on" id="bugTabOpen" onclick="setBugTab('open')">Açık</button>
-        <button class="bug-tab" id="bugTabResolved" onclick="setBugTab('resolved')">Çözüldü</button>
-      </div>
-      <div class="bug-list" id="bugList"></div>
-    </div>
-    <div class="bug-sidebar">
-      <div class="system-status-box" style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;">
-        <h4 style="font-family:'Syne',sans-serif;font-size:13px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Sistem Durumu</h4>
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;">
-          <span style="color:var(--muted);">Aktif Test Sürümü:</span>
-          <span style="color:var(--text);font-family:'DM Sans',monospace;font-weight:600;">v0.9.9</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;">
-          <span style="color:var(--muted);">Logary API (Backend):</span>
-          <span style="color:var(--accent3);font-weight:600;display:flex;align-items:center;gap:4px;"><div class="online-dot" style="position:static;"></div> Operasyonel</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:12px;padding-top:8px;border-top:1px dashed var(--border);">
-          <span style="color:var(--muted);">Hedef Lansman:</span>
-          <span style="color:#ffb86a;font-weight:600;">29 Mart 2026</span>
-        </div>
-      </div>
-      <div class="bug-new">
-        <div class="bug-new-label">Hata Raporu Oluştur</div>
-        <select id="bugTypeSel" class="bug-new-type">
-          <option value="ui">UI / Tasarım Kayması</option>
-          <option value="crash">Uygulama Çökmesi / Bug</option>
-          <option value="func">Mantık / İşlev Hatası</option>
-          <option value="auth">Giriş / Hesap Sorunu</option>
-          <option value="idea">Geliştirme Önerisi</option>
-          <option value="other">Diğer</option>
-        </select>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <select id="bugPrioritySel" class="bug-new-type" style="margin-bottom:0;flex:1;">
-            <option value="high">Blocker (Kritik)</option>
-            <option value="med" selected>Major (Yüksek)</option>
-            <option value="low">Minor (Düşük)</option>
-          </select>
-          <select id="bugRepSel" class="bug-new-type" style="margin-bottom:0;flex:1;">
-            <option value="always">Her Zaman</option>
-            <option value="sometimes">Ara Sıra</option>
-            <option value="once">Sadece Bir Kez</option>
-          </select>
-        </div>
-        <textarea class="bug-new-ta" id="bugText" placeholder="Hatanın Gerçekleşme Adımları:&#10;1. Şuraya tıkladım...&#10;2. Şu oldu...&#10;&#10;Beklenen Sonuç: Bu olmalıydı." rows="5"></textarea>
-        <div class="bug-media-row" id="bugMediaRow">
-          <label class="bug-upload-btn" title="Ekran Görüntüsü / Video Ekle">
-            <input type="file" accept="image/*,video/*" multiple style="display:none" id="bugFileInput" onchange="handleBugFiles(this)">+
-          </label>
-        </div>
-        <div class="bug-send-row">
-          <button class="bug-send-btn" id="bugSendBtn" onclick="submitBug()">Raporu İlet</button>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -536,8 +310,6 @@ body.tester-mode .bug-tester-logout{display:block;}
       <div class="cdot" style="background:#e8e8f0" data-c="#e8e8f0" onclick="pickC(this)"></div>
       <input class="mob-bslider" id="bszMob" type="range" min="1" max="20" value="3">
     </div>
-    <button class="mob-icon-btn" onclick="exportPNG()" title="PNG İndir"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
-    <button class="mob-bug-btn" onclick="openBug()" title="Bug Report">🐛</button>
     <button class="mob-icon-btn danger" onclick="doLogout()" title="Çıkış"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></button>
   </div>
 </div>
@@ -560,20 +332,15 @@ body.tester-mode .bug-tester-logout{display:block;}
 //  SABITLER & WEBHOOK'LAR
 // ════════════════════════════════════════════════════════════════════
 const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1485407990080082115/C-I_U4t3VdyLc2p_j6UN6G178kKwVjuUXZJeJgS_VxFBATdRZWQvwdO_MuhiKdnJqess';
-const BUG_WEBHOOK    = 'https://discord.com/api/webhooks/1485422309811556372/vT4K0vEjo4q9fdoGq5fNfmy5kQq1QhK5fMd-AIxXHpDeiPKmK1Xb2ZayipV7YoCH7V1k';
-
 const SUPA_URL     = 'https://zbphnjrtmmnjoaotrsju.supabase.co';
 const SUPA_KEY     = 'sb_publishable_gp-eupG38TKtE5XsHcSjVg_NzZL9EEG';
 const SUPA_HEADERS = {'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 const ROW_ID       = 1;
 const SKEY         = 'logary_v3';
-const LOG_KEY      = 'logary_activity_v1';
 
 // ════════════════════════════════════════════════════════════════════
-//  DISCORD EMBED SİSTEMİ — YENİDEN YAZILDI
+//  DISCORD EMBED SİSTEMİ
 // ════════════════════════════════════════════════════════════════════
-
-// Renk paleti (Discord decimal)
 const DC_COLORS = {
   task:      0x7C6AFF,
   start:     0x6AFFCC,
@@ -585,7 +352,6 @@ const DC_COLORS = {
   conn:      0x7AB4E8,
 };
 
-// Node tip etiketleri
 const NODE_LABELS = {
   task:      '📋 Görev',
   start:     '🚀 Başlangıç',
@@ -593,14 +359,12 @@ const NODE_LABELS = {
   end:       '🎯 Hedef',
 };
 
-// Progress bar (görsel blok)
 function progressBar(pct) {
   const filled = Math.round(pct / 10);
   const bar    = '█'.repeat(filled) + '░'.repeat(10 - filled);
   return `\`${bar}\` **${pct}%**`;
 }
 
-// Zaman formatlayıcı
 function formatTime(date) {
   return (date || new Date()).toLocaleString('tr-TR', {
     day:'2-digit', month:'2-digit', year:'numeric',
@@ -608,7 +372,6 @@ function formatTime(date) {
   });
 }
 
-// ── Ana Roadmap embedi ────────────────────────────────────────────
 async function sendDiscord(type, nodeType, title, desc = '', progress = null, extra = null) {
   try {
     const now   = new Date();
@@ -623,33 +386,11 @@ async function sendDiscord(type, nodeType, title, desc = '', progress = null, ex
     };
 
     const fields = [];
-
-    // Tip (inline)
-    if (nodeType && NODE_LABELS[nodeType]) {
-      fields.push({ name: '**Tip**', value: NODE_LABELS[nodeType], inline: true });
-    }
-
-    // Zaman (inline)
+    if (nodeType && NODE_LABELS[nodeType]) fields.push({ name: '**Tip**', value: NODE_LABELS[nodeType], inline: true });
     fields.push({ name: '**Zaman**', value: formatTime(now), inline: true });
-
-    // Progress bar (tam satır)
-    if (progress !== null) {
-      fields.push({ name: '**İlerleme**', value: progressBar(progress), inline: false });
-    }
-
-    // Açıklama (tam satır, varsa)
-    if (desc && desc.trim()) {
-      fields.push({
-        name:   '**Açıklama**',
-        value:  desc.trim().slice(0, 300) + (desc.length > 300 ? '…' : ''),
-        inline: false,
-      });
-    }
-
-    // Extra (bağlantı detayı, progress farkı vb.)
-    if (extra) {
-      fields.push({ name: '**Detay**', value: extra, inline: false });
-    }
+    if (progress !== null) fields.push({ name: '**İlerleme**', value: progressBar(progress), inline: false });
+    if (desc && desc.trim()) fields.push({ name:   '**Açıklama**', value:  desc.trim().slice(0, 300) + (desc.length > 300 ? '…' : ''), inline: false });
+    if (extra) fields.push({ name: '**Detay**', value: extra, inline: false });
 
     const embed = {
       title:       actionTitles[type] ?? type,
@@ -665,212 +406,8 @@ async function sendDiscord(type, nodeType, title, desc = '', progress = null, ex
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ username: 'Logary Roadmap', embeds: [embed] }),
     });
-
     if (!res.ok) console.warn('Discord embed hatası:', res.status, await res.text());
-  } catch (e) {
-    console.warn('Discord webhook hatası:', e);
-  }
-}
-
-// ── Bug Raporu embedi ─────────────────────────────────────────────
-async function sendBugToDiscord(text, bugTypeLabel, deviceInfo, priority, reproducibility, mediaUrls = [], rawFiles = []) {
-  try {
-    const now   = new Date();
-    const tName = sessionStorage.getItem('logary_tester_name') ?? (isOwner() ? 'Kurucu' : 'Admin');
-
-    const priorityColors = {
-      'Blocker (Kritik)': 0xFF4444,
-      'Major (Yüksek)':   0xFFB86A,
-      'Minor (Düşük)':    0x6AFFCC,
-    };
-    const priorityEmoji = {
-      'Blocker (Kritik)': '🔴',
-      'Major (Yüksek)':   '🟠',
-      'Minor (Düşük)':    '🟢',
-    };
-    const repEmoji = {
-      'Her Zaman':      '♻️',
-      'Ara Sıra':       '⚡',
-      'Sadece Bir Kez': '❓',
-    };
-
-    const color  = priorityColors[priority] ?? 0xFF6A8A;
-    const pEmoji = priorityEmoji[priority]  ?? '⚪';
-    const rEmoji = repEmoji[reproducibility] ?? '•';
-
-    const fields = [
-      { name: '👤 Tester',          value: `**${tName}**`, inline: true },
-      { name: '🗂 Kategori',         value: bugTypeLabel,   inline: true },
-      { name: '📱 Ortam',           value: deviceInfo,     inline: true },
-      { name: `${pEmoji} Öncelik`,  value: `**${priority}**`,      inline: true },
-      { name: `${rEmoji} Sıklık`,   value: reproducibility, inline: true },
-      { name: '🕐 Zaman',           value: formatTime(now), inline: true },
-    ];
-
-    if (text && text.trim()) {
-      fields.push({
-        name:   '📝 Adımlar & Gözlem',
-        value:  '```\n' + text.trim().slice(0, 900) + (text.length > 900 ? '\n…' : '') + '\n```',
-        inline: false,
-      });
-    }
-
-    if (mediaUrls.length > 0) {
-      fields.push({
-        name:   '🖼 Ekran Görüntüleri',
-        value:  mediaUrls.map((u, i) => `[Dosya ${i + 1}](${u})`).join('  ·  '),
-        inline: false,
-      });
-    }
-
-    const embed = {
-      title:       '🐛 Yeni QA Hata Raporu',
-      description: `Logary v0.9.9 — **${bugTypeLabel}**`,
-      color,
-      fields,
-      footer: { text: 'Logary QA Bot  •  logaryapp.github.io' },
-      timestamp: now.toISOString(),
-    };
-
-    const validFiles = rawFiles.filter(Boolean);
-
-    if (validFiles.length > 0) {
-      const form = new FormData();
-      form.append('payload_json', JSON.stringify({ username: 'Logary QA Bot', embeds: [embed] }));
-      validFiles.forEach((f, i) => form.append(`files[${i}]`, f, f.name));
-      await fetch(BUG_WEBHOOK + '?wait=true', { method: 'POST', body: form });
-    } else {
-      await fetch(BUG_WEBHOOK + '?wait=true', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ username: 'Logary QA Bot', embeds: [embed] }),
-      });
-    }
-  } catch (e) {
-    console.warn('QA Bot hatası:', e);
-  }
-}
-
-// ── Bug Yanıt embedi ──────────────────────────────────────────────
-async function sendReplyEmbed(bugSnippet, replyText) {
-  try {
-    const now   = new Date();
-    const embed = {
-      title:       '💬 Bug Yanıtlandı',
-      description: 'Yönetici resmi yanıt bıraktı.',
-      color:       0x6AFFCC,
-      fields: [
-        { name: '🐛 Bug',     value: bugSnippet.slice(0, 200) + (bugSnippet.length > 200 ? '…' : ''), inline: false },
-        { name: '✅ Yanıt',  value: `> ${replyText}`,   inline: false },
-        { name: '🕐 Zaman',  value: formatTime(now),    inline: true  },
-      ],
-      footer:    { text: 'Logary QA Bot  •  logaryapp.github.io' },
-      timestamp: now.toISOString(),
-    };
-    await fetch(BUG_WEBHOOK + '?wait=true', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ username: 'Logary QA Bot', embeds: [embed] }),
-    });
-  } catch (e) { console.warn('Reply embed hatası:', e); }
-}
-
-// ── Bug Durum Değişikliği embedi ──────────────────────────────────
-async function sendStatusEmbed(bugSnippet, status) {
-  try {
-    const now = new Date();
-    const statusMap = {
-      open:         { label: 'Yeniden Açıldı', emoji: '🔓', color: 0xFF6A8A },
-      resolved:     { label: 'Çözüldü',        emoji: '✅', color: 0x6AFFCC },
-      investigating:{ label: 'İnceleniyor',    emoji: '🔍', color: 0xFFB86A },
-      duplicate:    { label: 'Kopya',          emoji: '♊', color: 0xC46AFF },
-      not_a_bug:    { label: 'Hata Değil',     emoji: '🚫', color: 0x7A7A96 },
-    };
-    const { label, emoji, color } = statusMap[status] ?? { label: status, emoji: '•', color: 0x7A7A96 };
-    const embed = {
-      title:       `${emoji} Bug Durumu: ${label}`,
-      description: 'QA İşlemi tamamlandı.',
-      color,
-      fields: [
-        { name: '🐛 Bug',              value: bugSnippet.slice(0, 200) + (bugSnippet.length > 200 ? '…' : ''), inline: false },
-        { name: `${emoji} Yeni Durum`, value: `**${label}**`, inline: true },
-        { name: '🕐 Zaman',           value: formatTime(now),  inline: true },
-      ],
-      footer:    { text: 'Logary QA Bot  •  logaryapp.github.io' },
-      timestamp: now.toISOString(),
-    };
-    await fetch(BUG_WEBHOOK + '?wait=true', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ username: 'Logary QA Bot', embeds: [embed] }),
-    });
-  } catch (e) { console.warn('Status embed hatası:', e); }
-}
-
-// ════════════════════════════════════════════════════════════════════
-//  AKTİVİTE LOGU
-// ════════════════════════════════════════════════════════════════════
-let logFilter = 'all';
-let logClickCount = 0, logClickTimer = null;
-
-function logAdd(type, action, detail = '') {
-  const entry = { type, action, detail, ts: Date.now() };
-  const logs  = JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
-  logs.unshift(entry);
-  if (logs.length > 200) logs.length = 200;
-  localStorage.setItem(LOG_KEY, JSON.stringify(logs));
-  syncLogToSupabase(logs);
-}
-async function syncLogToSupabase(logs) {
-  try {
-    await fetch(`${SUPA_URL}/rest/v1/roadmap`, {
-      method:  'POST',
-      headers: { ...SUPA_HEADERS, 'Prefer': 'resolution=merge-duplicates,return=minimal' },
-      body:    JSON.stringify({ id: 2, data: JSON.stringify(logs), updated_at: new Date().toISOString() }),
-    });
-  } catch (e) {}
-}
-async function loadLogsFromSupabase() {
-  try {
-    const res  = await fetch(`${SUPA_URL}/rest/v1/roadmap?id=eq.2&select=data`, { headers: SUPA_HEADERS });
-    const rows = await res.json();
-    if (rows && rows.length > 0 && rows[0].data)
-      localStorage.setItem(LOG_KEY, JSON.stringify(JSON.parse(rows[0].data)));
-  } catch (e) {}
-}
-async function openLog() { document.getElementById('logPanel').classList.add('open'); await loadLogsFromSupabase(); renderLog(); }
-function closeLog() { document.getElementById('logPanel').classList.remove('open'); }
-function setLogFilter(el) { document.querySelectorAll('.log-chip').forEach(c => c.classList.remove('on')); el.classList.add('on'); logFilter = el.dataset.f; renderLog(); }
-function clearLog() { if (!confirm('Log temizlenecek. Emin misin?')) return; localStorage.removeItem(LOG_KEY); renderLog(); }
-
-const LOG_COLORS = { node:'rgba(124,106,255,.15)', edit:'rgba(106,255,204,.12)', progress:'rgba(255,184,106,.12)', conn:'rgba(122,180,232,.12)', delete:'rgba(255,106,138,.12)' };
-
-function renderLog() {
-  const logs     = JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
-  const list     = document.getElementById('logList');
-  const today    = new Date(); today.setHours(0, 0, 0, 0);
-  const filtered = logFilter === 'all' ? logs : logs.filter(l => l.type === logFilter);
-  document.getElementById('ls-total').textContent = logs.length;
-  document.getElementById('ls-today').textContent = logs.filter(l => l.ts >= today.getTime()).length;
-  document.getElementById('ls-nodes').textContent = logs.filter(l => l.type === 'node' || l.type === 'delete').length;
-  if (filtered.length === 0) { list.innerHTML = `<div class="log-empty"><div class="log-empty-icon">📭</div><span>Henüz aktivite yok</span></div>`; return; }
-  list.innerHTML = filtered.map(l => {
-    const d       = new Date(l.ts);
-    const dateStr = d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit' });
-    const timeStr = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const bg      = LOG_COLORS[l.type] || 'rgba(124,106,255,.1)';
-    return `<div class="log-item"><div class="log-icon" style="background:${bg}">📌</div><div class="log-content"><div class="log-action">${l.action}</div>${l.detail ? `<div class="log-detail">${l.detail}</div>` : ''}<div class="log-time">${dateStr} ${timeStr}</div></div></div>`;
-  }).join('');
-}
-
-function setupLogoClick() {
-  const logo = document.getElementById('logoBtn'); if (!logo) return;
-  logo.addEventListener('click', () => {
-    if (!isOwner()) return;
-    logClickCount++; clearTimeout(logClickTimer);
-    if (logClickCount >= 3) { logClickCount = 0; openLog(); }
-    else logClickTimer = setTimeout(() => { logClickCount = 0; }, 600);
-  });
+  } catch (e) { console.warn('Discord webhook hatası:', e); }
 }
 
 // ════════════════════════════════════════════════════════════════════
@@ -879,11 +416,6 @@ function setupLogoClick() {
 const ADMIN_CREDENTIALS = {
   'ademcanadmin6060': 'owner',
   'logarymjademadmin': 'partner',
-};
-const TESTER_CREDENTIALS = {
-  'darknelfsslogaryabug': 'Darknelfss',
-  'asellogarybug':        'Asel',
-  'papexlogarybug':       'Papex',
 };
 
 function isLoggedIn() { return sessionStorage.getItem('logary_auth') === '1'; }
@@ -895,37 +427,26 @@ function doLogin() {
   const err = document.getElementById('loginErr');
   if (!pw) { inp.classList.add('err'); setTimeout(() => inp.classList.remove('err'), 400); return; }
 
-  let role = null, testerName = '';
+  let role = null;
   if (ADMIN_CREDENTIALS[pw])  { role = ADMIN_CREDENTIALS[pw]; }
-  else if (TESTER_CREDENTIALS[pw]) { role = 'tester'; testerName = TESTER_CREDENTIALS[pw]; }
 
   if (role) {
     sessionStorage.setItem('logary_auth', '1');
     sessionStorage.setItem('logary_role', role);
-    if (testerName) sessionStorage.setItem('logary_tester_name', testerName);
     const ls = document.getElementById('loginScreen');
     ls.style.opacity = '0'; ls.style.transition = 'opacity .4s';
     setTimeout(() => { ls.style.display = 'none'; }, 400);
     err.classList.remove('show');
-    if (role === 'tester') { setupTesterMode(); }
-    else { initApp(); if (role === 'owner') setTimeout(openLog, 600); }
+    initApp();
   } else {
     inp.classList.add('err'); err.classList.add('show'); inp.value = '';
     setTimeout(() => inp.classList.remove('err'), 400);
   }
 }
 
-function setupTesterMode() {
-  document.body.classList.add('tester-mode');
-  const tName = sessionStorage.getItem('logary_tester_name');
-  if (tName) document.getElementById('testerNameDisp').textContent = '(' + tName + ')';
-  openBug();
-}
-
 function doLogout() {
   sessionStorage.removeItem('logary_auth');
   sessionStorage.removeItem('logary_role');
-  sessionStorage.removeItem('logary_tester_name');
   location.reload();
 }
 
@@ -1073,9 +594,7 @@ async function initApp() {
   setTool('select'); startRealtimeSync();
 
   updateProgressSummary();
-  updateBugCount();
   setTimeout(checkDeadlines, 2000);
-  setInterval(updateBugCount, 30000);
   setInterval(updateProgressSummary, 5000);
 }
 
@@ -1158,7 +677,6 @@ function startRealtimeSync() {
       NL.innerHTML=''; SVG.innerHTML=''; nodes.forEach(n => buildNode(n)); labels.forEach(l => buildLabel(l)); setTimeout(redrawConns, 80);
       showToast('Roadmap güncellendi','info','🔄'); updateProgressSummary();
     } catch (e) {}
-    if (document.getElementById('logPanel').classList.contains('open')) { await loadLogsFromSupabase(); renderLog(); }
   }, 3000);
 }
 
@@ -1208,7 +726,6 @@ function addNode(type, x, y) {
   const id=++nid; const r=wrap.getBoundingClientRect();
   const node = { id, type, x:x??(-panX/scale+50+Math.random()*(r.width/scale-300)), y:y??(-panY/scale+50+Math.random()*(r.height/scale-220)), title:'', desc:'', progress:type==='start'?100:type==='end'?0:35 };
   nodes.push(node); buildNode(node); scheduleSave();
-  logAdd('node', `Node eklendi: ${TLABEL[type]||type}`, `Pozisyon: ${Math.round(node.x)}, ${Math.round(node.y)}`);
   return node;
 }
 
@@ -1240,14 +757,12 @@ function buildNode(node) {
       const title = el.querySelector('.ntitle').value.trim(); if (!title) return;
       node.title=el.querySelector('.ntitle').value; node.desc=el.querySelector('.ndesc').value;
       dcSent=true; sendDiscord('node', node.type, node.title, node.desc, node.progress);
-      logAdd('node', `Discord'a gönderildi: ${node.title}`, `%${node.progress}`);
     }, 800);
   }
 
   el.querySelectorAll('textarea').forEach(ta => {
     const grow = () => { ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; };
-    let editTimer=null;
-    ta.addEventListener('input', () => { grow(); clearTimeout(editTimer); editTimer=setTimeout(() => { const field=ta.classList.contains('ntitle')?'Başlık':'Açıklama'; logAdd('edit',`${field} düzenlendi`,ta.value.slice(0,60)+(ta.value.length>60?'…':'')); }, 2000); });
+    ta.addEventListener('input', () => { grow(); });
     ta.addEventListener('blur', tryDC); setTimeout(grow, 0);
   });
   el.querySelector('.prog-range').addEventListener('change', tryDC);
@@ -1263,15 +778,13 @@ function buildNode(node) {
 function selectNode(id) { document.querySelectorAll('.rnode').forEach(n => n.classList.remove('sel')); selId=id; if(id) document.getElementById('n'+id)?.classList.add('sel'); }
 
 function setProgress(id, v) {
-  const n = nodes.find(x => x.id===id); if(!n)return; const old=n.progress; n.progress=v;
+  const n = nodes.find(x => x.id===id); if(!n)return; n.progress=v;
   document.getElementById('pf'+id).style.width=v+'%'; document.getElementById('pp'+id).textContent=v+'%';
-  logAdd('progress', `İlerleme güncellendi: ${n.title||'(başlıksız)'}`, `%${old} → %${v}`);
   scheduleSave(); updateProgressSummary();
 }
 
 function delNode(id) {
   const n = nodes.find(x => x.id===id);
-  logAdd('delete', `Node silindi: ${n?.title||'(başlıksız)'}`, TLABEL[n?.type]||'');
   sendDiscord('delete', n?.type, n?.title||'(başlıksız)', n?.desc||'');
   nodes=nodes.filter(n=>n.id!==id); conns=conns.filter(c=>c.a!==id&&c.b!==id);
   document.getElementById('n'+id)?.remove(); redrawConns(); scheduleSave();
@@ -1283,7 +796,6 @@ function handleConn(id, el) {
     if (!conns.find(c=>(c.a===connFrom&&c.b===id)||(c.a===id&&c.b===connFrom))) {
       conns.push({a:connFrom,b:id});
       const a=nodes.find(x=>x.id===connFrom), b=nodes.find(x=>x.id===id);
-      logAdd('conn','Bağlantı eklendi',`${a?.title||'Node'} → ${b?.title||'Node'}`);
       sendDiscord('conn','conn',`${a?.title||'Node'} → ${b?.title||'Node'}`,'');
     }
     clearHL(); connFrom=null; redrawConns(); scheduleSave();
@@ -1320,22 +832,6 @@ function redrawConns() {
 function clearDraw() { ctx.clearRect(0,0,canvas.width,canvas.height); scheduleSave(); }
 function toggleNodeSheet() { document.getElementById('mobSheet').classList.toggle('open'); document.getElementById('mobOverlay').classList.toggle('show'); }
 function closeNodeSheet() { document.getElementById('mobSheet').classList.remove('open'); document.getElementById('mobOverlay').classList.remove('show'); }
-function clearAll() { if(!confirm('Her şey silinecek. Devam?'))return; clearDraw(); nodes=[]; conns=[]; labels=[]; NL.innerHTML=''; SVG.innerHTML=''; nid=0; lid=0; localStorage.removeItem(SKEY); setSB('','Temizlendi'); }
-
-async function exportPNG() {
-  const btn=document.getElementById('expBtn'), ov=document.getElementById('expOverlay');
-  btn.disabled=true; ov.classList.add('show');
-  document.getElementById('sidePanel').style.visibility='hidden';
-  document.getElementById('hint').style.visibility='hidden';
-  document.querySelector('.zoom-controls').style.visibility='hidden';
-  try {
-    const shot = await html2canvas(wrap,{backgroundColor:'#0f0f13',scale:2,useCORS:true,allowTaint:true,logging:false,ignoreElements:el=>el.id==='drawCanvas'});
-    const final = document.createElement('canvas'); final.width=shot.width; final.height=shot.height;
-    const fc = final.getContext('2d'); fc.drawImage(shot,0,0); fc.drawImage(canvas,0,0,final.width,final.height);
-    const a = document.createElement('a'); a.download='logary-roadmap.png'; a.href=final.toDataURL('image/png'); a.click();
-  } catch (err) { alert('Export hatası: '+err.message); }
-  finally { document.getElementById('sidePanel').style.visibility=''; document.getElementById('hint').style.visibility=''; document.querySelector('.zoom-controls').style.visibility=''; ov.classList.remove('show'); btn.disabled=false; }
-}
 
 function loadPreset() {
   nodes=[...PRESET_NODES.map(n=>({...n}))]; conns=[...PRESET_CONNS.map(c=>({...c}))]; labels=[...PRESET_LABELS.map(l=>({...l}))];
@@ -1351,204 +847,6 @@ function loadPreset() {
   });
   labels.forEach(l => buildLabel(l));
   setTimeout(() => { redrawConns(); doSave(); }, 150);
-}
-
-// ════════════════════════════════════════════════════════════════════
-//  BUG REPORT SİSTEMİ
-// ════════════════════════════════════════════════════════════════════
-let bugTab = 'open';
-let bugPendingFiles = [];
-
-function openBug() { document.getElementById('bugPanel').classList.add('open'); loadBugs(); }
-function closeBug() { document.getElementById('bugPanel').classList.remove('open'); }
-
-function setBugTab(t) {
-  bugTab = t;
-  document.getElementById('bugTabOpen').classList.toggle('on', t==='open');
-  document.getElementById('bugTabResolved').classList.toggle('on', t==='resolved');
-  loadBugs();
-}
-
-async function loadBugs() {
-  const list = document.getElementById('bugList');
-  list.innerHTML = `<div class="bug-empty-state"><div class="bug-empty-icon">⏳</div><span>Yükleniyor…</span></div>`;
-  try {
-    const statusFilter = bugTab==='open' ? 'in.(open,investigating)' : 'in.(resolved,duplicate,not_a_bug)';
-    const res  = await fetch(`${SUPA_URL}/rest/v1/bugreports?status=${statusFilter}&order=created_at.desc`, { headers: SUPA_HEADERS });
-    const bugs = await res.json();
-    if (!bugs||bugs.length===0) { list.innerHTML=`<div class="bug-empty-state"><div class="bug-empty-icon">${bugTab==='open'?'🎉':'📭'}</div><span>${bugTab==='open'?'Hiç açık hata raporu yok':'Henüz çözülen rapor yok'}</span></div>`; return; }
-    list.innerHTML = bugs.map(b => renderBugItem(b)).join('');
-  } catch (e) { list.innerHTML=`<div class="bug-empty-state"><div class="bug-empty-icon">⚠️</div><span>Yüklenemedi</span></div>`; }
-}
-
-function renderBugItem(b) {
-  const d = new Date(b.created_at);
-  const timeStr = d.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
-  let author='', bugType='', device='', priority='', rep='', contentText=b.content||'';
-  if (contentText.includes('|||')) {
-    const parts = contentText.split('|||');
-    author=parts[0]; bugType=parts[1];
-    if (parts.length>=6)   { device=parts[2]; priority=parts[3]; rep=parts[4]; contentText=parts.slice(5).join('|||'); }
-    else if (parts.length>=4) { device=parts[2]; contentText=parts.slice(3).join('|||'); }
-    else { contentText=parts.slice(2).join('|||'); }
-  }
-  let mediaHtml='';
-  if (b.media_url) {
-    const urls=b.media_url.split(',').filter(Boolean);
-    mediaHtml=`<div class="bug-media">${urls.map(u=>{const isVideo=u.match(/\.(mp4|webm|mov|avi)/i);return isVideo?`<video class="bug-media-video" src="${u}" controls onclick="event.stopPropagation()"></video>`:`<img class="bug-media-item" src="${u}" onclick="openLightbox('${u}')" alt="bug media">`;}).join('')}</div>`;
-  }
-  let replyHtml='';
-  if (b.reply) { replyHtml=`<div class="bug-reply-box"><div class="bug-reply-label">Yönetici Yanıtı</div><div class="bug-reply-text">${b.reply}</div></div>`; }
-  const statusMap = { 'open':'Açık','resolved':'Çözüldü','investigating':'İnceleniyor','duplicate':'Kopya','not_a_bug':'Hata Değil' };
-  const statusText = statusMap[b.status]||'Bilinmiyor';
-  const ownerActions = isOwner() ? `
-    <div class="bug-actions" style="border-top:1px solid var(--border);padding-top:10px;margin-top:10px;">
-      <div style="display:flex;flex-direction:column;gap:10px;flex:1;">
-        ${b.status==='open'||b.status==='investigating'?`
-        <div style="display:flex;gap:6px;">
-          <input class="bug-reply-input" style="margin:0;" id="ri${b.id}" placeholder="Resmi bir yanıt bırakın..." onclick="event.stopPropagation()">
-          <button class="bug-reply-submit" style="width:auto;padding:0 16px;" onclick="sendReply(${b.id})">Yanıtla</button>
-        </div>`:''}
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span style="font-size:11px;color:var(--muted);font-weight:600;">QA İŞLEMİ:</span>
-          <select class="admin-status-sel" onchange="changeBugStatus(${b.id},this.value)" onclick="event.stopPropagation()">
-            <option value="open" ${b.status==='open'?'selected':''}>Açık (Bekliyor)</option>
-            <option value="investigating" ${b.status==='investigating'?'selected':''}>İnceleniyor</option>
-            <option value="resolved" ${b.status==='resolved'?'selected':''}>Çözüldü (Kapat)</option>
-            <option value="duplicate" ${b.status==='duplicate'?'selected':''}>Kopya</option>
-            <option value="not_a_bug" ${b.status==='not_a_bug'?'selected':''}>Hata Değil</option>
-          </select>
-        </div>
-      </div>
-    </div>` : '';
-  return `<div class="bug-item${b.status==='resolved'||b.status==='not_a_bug'||b.status==='duplicate'?' resolved':''}">
-    <div class="bug-item-head">
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <span class="bug-status ${b.status}">${statusText}</span>
-        ${author?`<span class="bug-author-badge">👤 ${author}</span>`:''}
-        ${priority?`<span class="bug-type-badge">${priority}</span>`:''}
-        ${rep?`<span class="bug-type-badge">${rep}</span>`:''}
-        ${bugType?`<span class="bug-type-badge">${bugType}</span>`:''}
-        ${device?`<span class="bug-device-badge">📱 ${device}</span>`:''}
-      </div>
-      <span class="bug-time">${timeStr}</span>
-    </div>
-    <div class="bug-content">${contentText}</div>
-    ${mediaHtml}${replyHtml}${ownerActions}
-  </div>`;
-}
-
-function handleBugFiles(input) {
-  Array.from(input.files).forEach(f => {
-    bugPendingFiles.push(f);
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const idx=bugPendingFiles.length-1;
-      const row=document.getElementById('bugMediaRow');
-      const preview=document.createElement('div'); preview.className='bug-preview'; preview.id='prev'+idx;
-      const isVideo=f.type.startsWith('video/');
-      preview.innerHTML=isVideo?`<video src="${e.target.result}" class="bug-media-item"></video><button class="bug-preview-del" onclick="removeBugFile(${idx})">×</button>`:`<img src="${e.target.result}" class="bug-media-item"><button class="bug-preview-del" onclick="removeBugFile(${idx})">×</button>`;
-      row.insertBefore(preview,row.querySelector('label'));
-    };
-    reader.readAsDataURL(f);
-  });
-  input.value='';
-}
-
-function removeBugFile(idx) { bugPendingFiles[idx]=null; document.getElementById('prev'+idx)?.remove(); }
-
-async function uploadBugFiles() {
-  const urls=[];
-  for (const f of bugPendingFiles) {
-    if (!f) continue;
-    const ext=f.name.split('.').pop();
-    const name=`${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-    const res=await fetch(`${SUPA_URL}/storage/v1/object/bugreports/${name}`,{method:'POST',headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':f.type},body:f});
-    if (res.ok) urls.push(`${SUPA_URL}/storage/v1/object/public/bugreports/${name}`);
-  }
-  return urls;
-}
-
-function getDeviceInfo() {
-  const ua=navigator.userAgent;
-  let os='Bilinmiyor';
-  if (/android/i.test(ua)) os='Android';
-  else if (/iPad|iPhone|iPod/.test(ua)&&!window.MSStream) os='iOS';
-  else if (/Windows NT/.test(ua)) os='Windows';
-  else if (/Mac OS X/.test(ua)) os='macOS';
-  let browser='Tarayıcı';
-  if (/chrome|crios|crmo/i.test(ua)&&!/edg/i.test(ua)) browser='Chrome';
-  else if (/safari/i.test(ua)&&!/chrome|crios|crmo/i.test(ua)) browser='Safari';
-  else if (/firefox|fxios/i.test(ua)) browser='Firefox';
-  else if (/edg/i.test(ua)) browser='Edge';
-  return `${os} - ${browser}`;
-}
-
-async function submitBug() {
-  const text       = document.getElementById('bugText').value.trim();
-  const validFiles = bugPendingFiles.filter(Boolean);
-  const typeSel    = document.getElementById('bugTypeSel');
-  const bugTypeLabel  = typeSel.options[typeSel.selectedIndex].text;
-  const priSel     = document.getElementById('bugPrioritySel');
-  const priorityLabel = priSel.options[priSel.selectedIndex].text;
-  const repSel     = document.getElementById('bugRepSel');
-  const repLabel   = repSel.options[repSel.selectedIndex].text;
-  if (!text&&validFiles.length===0) { alert('Lütfen hata detaylarını yazın veya dosya ekleyin.'); return; }
-  const btn=document.getElementById('bugSendBtn'); btn.disabled=true; btn.textContent='İletiliyor…';
-  const tName      = sessionStorage.getItem('logary_tester_name')||(isOwner()?'Kurucu':'Admin');
-  const deviceInfo = getDeviceInfo();
-  const finalContent = `${tName}|||${bugTypeLabel}|||${deviceInfo}|||${priorityLabel}|||${repLabel}|||${text}`;
-  try {
-    const urls=await uploadBugFiles();
-    await fetch(`${SUPA_URL}/rest/v1/bugreports`,{method:'POST',headers:{...SUPA_HEADERS,'Prefer':'return=representation'},body:JSON.stringify({content:finalContent,media_url:urls.join(','),status:'open'})});
-    await sendBugToDiscord(text,bugTypeLabel,deviceInfo,priorityLabel,repLabel,urls,validFiles);
-    document.getElementById('bugText').value='';
-    bugPendingFiles=[]; document.querySelectorAll('.bug-preview').forEach(p=>p.remove());
-    setBugTab('open'); showToast('QA Raporu başarıyla sisteme işlendi.','success');
-  } catch (e) { alert('Sistem Hatası: '+e.message); }
-  btn.disabled=false; btn.textContent='Raporu İlet';
-}
-
-async function sendReply(id) {
-  const input=document.getElementById('ri'+id);
-  const reply=input?.value?.trim(); if(!reply)return;
-  try {
-    const res  = await fetch(`${SUPA_URL}/rest/v1/bugreports?id=eq.${id}`,{headers:SUPA_HEADERS});
-    const rows = await res.json();
-    const bug  = rows?.[0];
-    await fetch(`${SUPA_URL}/rest/v1/bugreports?id=eq.${id}`,{method:'PATCH',headers:SUPA_HEADERS,body:JSON.stringify({reply})});
-
-    // Snippet çıkar
-    let contentSnippet = bug?.content||'(yok)';
-    if (contentSnippet.includes('|||')) {
-      const parts=contentSnippet.split('|||');
-      contentSnippet=parts.length>=6?parts.slice(5).join('|||'):parts.slice(2).join('|||');
-    }
-
-    // YENİ: güzel embed
-    await sendReplyEmbed(contentSnippet, reply);
-    loadBugs();
-  } catch (e) { alert('Yanıt gönderilemedi'); }
-}
-
-async function changeBugStatus(id, status) {
-  try {
-    const res  = await fetch(`${SUPA_URL}/rest/v1/bugreports?id=eq.${id}`,{headers:SUPA_HEADERS});
-    const rows = await res.json();
-    const bug  = rows?.[0];
-    await fetch(`${SUPA_URL}/rest/v1/bugreports?id=eq.${id}`,{method:'PATCH',headers:SUPA_HEADERS,body:JSON.stringify({status})});
-
-    // Snippet çıkar
-    let contentSnippet = bug?.content||'(yok)';
-    if (contentSnippet.includes('|||')) {
-      const parts=contentSnippet.split('|||');
-      contentSnippet=parts.length>=6?parts.slice(5).join('|||'):parts.slice(2).join('|||');
-    }
-
-    // YENİ: güzel embed
-    await sendStatusEmbed(contentSnippet, status);
-    loadBugs(); showToast('Durum güncellendi','success');
-  } catch (e) { showToast('Durum güncellenemedi','warn'); }
 }
 
 function openLightbox(url) {
@@ -1577,20 +875,9 @@ function updateProgressSummary() {
   if (fill) fill.style.width=avg+'%'; if (pct) pct.textContent=avg+'%';
 }
 
-async function updateBugCount() {
-  try {
-    const res  = await fetch(`${SUPA_URL}/rest/v1/bugreports?status=eq.open&select=id`,{headers:SUPA_HEADERS});
-    const bugs = await res.json();
-    const count=bugs?.length||0;
-    const badge=document.getElementById('bugCountBadge');
-    if (badge) { badge.textContent=count; badge.classList.toggle('show',count>0); }
-  } catch (e) {}
-}
-
 function setDeadline(id, val) {
   const n=nodes.find(x=>x.id===id); if(!n)return;
   n.deadline=val; updateDeadlineStyle(id); scheduleSave();
-  logAdd('edit',`Deadline: ${n.title||'(başlıksız)'}`,val||'Kaldırıldı');
 }
 function updateDeadlineStyle(id) {
   const n=nodes.find(x=>x.id===id); if(!n)return;
@@ -1645,13 +932,11 @@ function toggleFullscreen() {
 // ════════════════════════════════════════════════════════════════════
 window.addEventListener('load', () => {
   document.getElementById('pwInput').focus();
-  setupLogoClick();
   if (isLoggedIn()) {
     const role = sessionStorage.getItem('logary_role');
     if (!role) { doLogout(); return; }
     document.getElementById('loginScreen').style.display='none';
-    if (role==='tester') { setupTesterMode(); }
-    else { initApp(); if(isOwner()) setTimeout(openLog,600); }
+    initApp();
   }
 });
 </script>
